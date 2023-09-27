@@ -2,23 +2,33 @@
 import React from "react";
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
+    const router = useRouter()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error,setError] = useState('');
   const handleOnSubmit = async () => {
     const supabase = createClientComponentClient()
-    await supabase.auth.signUp({
+    const{error} = await supabase.auth.signUp({
         email,
         password,
         options:{
             emailRedirectTo:`${location.origin}/api/auth/callback`
         }
     })
+    if(error){
+        setError(error.message)
+    }
+    if(!error){
+        router.push('/Verify')
+    }
   }
   return (
-    <form onSubmit={handleOnSubmit} className="flex flex-col">
+    <>
+     <form onSubmit={handleOnSubmit} className="flex flex-col">
       <div className="flex">
         <h1>Login</h1>
       </div>
@@ -54,6 +64,13 @@ const SignUp = () => {
         <button onClick={handleOnSubmit} type="button">Create Account</button>
       </div>
     </form>
+    {error && (
+        <div className="error">
+            {error}
+        </div>
+    )}
+    </>
+   
   );
 };
 
