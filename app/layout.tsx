@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const myFont = localFont({
   src: "../fonts/InstrumentSans-Variable.ttf",
@@ -20,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <body className={myFont.className}>{children}</body>
+      <body className={myFont.className}>{children}</body>
     </html>
   );
 }

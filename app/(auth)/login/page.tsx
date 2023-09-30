@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useState } from "react";
 import Button from "@/app/components/Button";
+import Link from "next/link";
+import Header from "@/app/components/Header";
 const Login = () => {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -26,9 +28,11 @@ const Login = () => {
   };
   return (
     <>
-      <form
+    <div className="flex items-center justify-center flex-1 flex-col">
+      <Header/>
+    <form
         onSubmit={handleOnSubmit}
-        className="flex flex-col items-center justify-between mx-10 w-[311px]"
+        className="flex flex-col items-center justify-between mx-10 w-[311px] md:w-[476px]"
       >
         <div className="flex flex-col w-full">
           <h1 className="h-[36px] font-bold text-2xl">Login</h1>
@@ -95,7 +99,13 @@ const Login = () => {
         <div className="flex w-full mt-5">
          <Button text={'Login'} onClick={handleOnSubmit}/>
         </div>
+        <div className="flex flex-col items-center mt-6 ">
+          <p className="font-[16px] text-grey">Don’t have an account?</p>
+          <Link href='/signup'><p className="text-purple font-[16px]">Create account</p></Link>
+        </div>
       </form>
+    </div>
+     
       {error && <div>{error}</div>}
     </>
   );
