@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Verify = () => {
+const Homepage = () => {
   return (
     <div>Successfully registered</div>
   )
 }
 
-export default Verify
+export default Homepage

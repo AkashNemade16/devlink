@@ -29,6 +29,7 @@ const SignUp = () => {
     if(!error){
         router.push('/Verify')
     }
+    router.refresh()
   }
   return (
     <>
@@ -119,8 +120,8 @@ const SignUp = () => {
              
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="At least 8 characters"
               />
             </div>
