@@ -14,12 +14,13 @@ export default async function DashboardLayout({children}:{children:React.ReactNo
     }
 
     return(
-        <>
-        <div>
+    
+        <div className="flex flex-col justify-center w-[311px] md:w-[476px] items-center">
             <DashHeader/>
             {children}
             <DashFooter/>
         </div>
-        </>
+        
     )
 }
+// flex flex-col items-center justify-between mx-10 w-[311px] md:w-[476px]

@@ -19,7 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={myFont.className}>{children}</body>
+      <body className={myFont.className}>
+        <div className="flex flex-col justify-center items-center">
+        {children}
+        </div>
+      </body>
     </html>
   );
 }
