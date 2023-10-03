@@ -15,9 +15,11 @@ export default async function DashboardLayout({children}:{children:React.ReactNo
 
     return(
     
-        <div className="flex flex-col justify-center w-[311px] md:w-[476px] items-center">
+        <div className="flex flex-col justify-center w-[311px] md:w-full items-center">
             <DashHeader/>
+            <div>
             {children}
+            </div>
             <DashFooter/>
         </div>
         
