@@ -32,9 +32,9 @@ const Homepage = () => {
         disabled={false}
       />
       </div>
-      <div>
+      {/* <div>
         <IllustrationEmpty/>
-      </div>
+      </div> */}
       <div>
         <NewLink/>
       </div>
