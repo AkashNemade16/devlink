@@ -12,6 +12,7 @@ const DashFooter = () => {
           }}
           color="bg-purple"
           textColor="text-white"
+          disabled={true}
         />
       </div>
     </div>

@@ -131,7 +131,7 @@ const SignUp = () => {
           <p className="text-xs text-grey">Password must contain at least 8 characters</p>
         </div>
         <div className="flex w-full mt-5">
-         <Button text={'Create new account'} onClick={handleOnSubmit} color='bg-purple' textColor="text-white"/>
+         <Button text={'Create new account'} onClick={handleOnSubmit} color='bg-purple' textColor="text-white" disabled={false}/>
         </div>
         <div className="flex flex-col items-center mt-6 ">
           <p className="font-[16px] text-grey">Already have an account?</p>

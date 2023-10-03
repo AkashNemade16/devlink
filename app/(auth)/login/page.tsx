@@ -97,7 +97,7 @@ const Login = () => {
           </div>
         </div>
         <div className="flex w-full mt-5">
-         <Button text={'Login'} onClick={handleOnSubmit} color="bg-purple" textColor="text-white"/>
+         <Button text={'Login'} onClick={handleOnSubmit} color="bg-purple" textColor="text-white" disabled={false}/>
         </div>
         <div className="flex flex-col items-center mt-6 ">
           <p className="font-[16px] text-grey">Don’t have an account?</p>

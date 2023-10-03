@@ -1,8 +1,18 @@
+'use client'
+import Button from '@/app/components/Button'
 import React from 'react'
 
 const Homepage = () => {
   return (
-    <div>Successfully registered</div>
+    <div className='w-full'>
+      <Button
+        text='+ Add new Link'
+        textColor='text-purple'
+        onClick={()=>{}}
+        color='bg-white'
+        disabled={false}
+      />
+    </div>
   )
 }
 
