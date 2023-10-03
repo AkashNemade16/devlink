@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const DashHeader = () => {
   return (
-    <div className='flex items-center justify-between w-full'>
+    <div className='flex items-center justify-between w-full mt-2 mb-2'>
         <div className='flex flex-row '>
             <Image
                 src={'images/logo-devlinks-small.svg'}
