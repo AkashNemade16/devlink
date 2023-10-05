@@ -5,12 +5,20 @@ import NewLink from '../NewLink'
 import Image from 'next/image'
 import IllustrationEmpty from '../IllustrationEmpty'
 import { useGlobalContext } from '../(context)/store'
+interface Link {
+  id:number;
+  value:string;
+}
 const Homepage = () => {
- 
-  const [link,setLink] = useState([]);
+  const [nextId,setNextId] = useState(1);
+  const [link,setLink] = useState<Link[]>([]);
   const {links,setlinks} = useGlobalContext();
-  const addNewLink = (e: { preventDefault: () => void }) => {    
-    setlinks([])
+  const addNewLink = (e: { preventDefault: () => void }) => { 
+    setNextId(prevId => prevId+1)   
+    setlinks([...links,{
+      id:nextId,
+      link:'New Item'
+    }])
   }
   console.log(links)
   return (
@@ -39,11 +47,17 @@ const Homepage = () => {
         disabled={false}
       />
       </div>
-      <div>
+      {links.length===0 &&<div>
         <IllustrationEmpty/>
-      </div>
-      { <div>
-        <NewLink/>
+      </div>}
+      { links.length !==0  && <div>
+        {links.map((link,index)=>{
+            return (
+              <div key={index}>
+                  <NewLink/>
+                </div>
+            )
+        })}
       </div>}
     </div>
     </div>

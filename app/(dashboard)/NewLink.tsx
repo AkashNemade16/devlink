@@ -7,6 +7,7 @@ const {links,setlinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const options = [
+    "Github",
     "Codewards",
     "Stackoverflow",
     "FrontendMentor",
@@ -45,7 +46,7 @@ const {links,setlinks} = useGlobalContext();
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
           >
-            <option value="">Github</option>
+            <option value=''>{}</option>
             {options.map((option) => (
               <option key={option} value={option}>
                 {option}

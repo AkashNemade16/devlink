@@ -2,7 +2,7 @@
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
 type DataType = {
-   link: string
+   link: string,
    id:number
 }
 
