@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 interface NewLinkProps {
-    deleteLink:()=>void
+    deleteLink:()=>void,
+    id:number
 }
 
-const NewLink =({deleteLink}:NewLinkProps )=> {
+const NewLink =({deleteLink,id}:NewLinkProps )=> {
 const {links,setlinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
@@ -24,7 +25,7 @@ const {links,setlinks} = useGlobalContext();
     "Codepen",
     "Twitch",
   ];
-
+  console.log('new link',links)
  
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
@@ -36,7 +37,7 @@ const {links,setlinks} = useGlobalContext();
             width={20}
             alt=""
           />
-          <p className="text-grey ml-2">#Link1</p>
+          <p className="text-grey ml-2">{`#Link ${id}`}</p>
         </div>
 
         <div>

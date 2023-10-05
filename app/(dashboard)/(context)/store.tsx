@@ -3,10 +3,7 @@ import { createContext, useContext, Dispatch, SetStateAction, useState } from "r
 
 type DataType = {
    link: string,
-   id:number,
    platform?:string,
-   
-
 }
 
 interface ContextProps {
