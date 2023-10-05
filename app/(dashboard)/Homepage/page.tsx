@@ -5,13 +5,9 @@ import NewLink from '../NewLink'
 import Image from 'next/image'
 import IllustrationEmpty from '../IllustrationEmpty'
 import { useGlobalContext } from '../(context)/store'
-interface Link {
-  id:number;
-  value:string;
-}
+
 const Homepage = () => {
   const [nextId,setNextId] = useState(1);
-  const [link,setLink] = useState<Link[]>([]);
   const {links,setlinks} = useGlobalContext();
   const addNewLink = (e: { preventDefault: () => void }) => { 
     setNextId(prevId => prevId+1)   
@@ -19,6 +15,11 @@ const Homepage = () => {
       id:nextId,
       link:'New Item'
     }])
+  }
+  const deleteLink = (i) => {
+    let linkCopy = [...links];
+    linkCopy.splice(i,1);
+    setlinks(linkCopy)
   }
   console.log(links)
   return (
@@ -54,7 +55,7 @@ const Homepage = () => {
         {links.map((link,index)=>{
             return (
               <div key={index}>
-                  <NewLink/>
+                  <NewLink deleteLink={()=>deleteLink(index)}/>
                 </div>
             )
         })}

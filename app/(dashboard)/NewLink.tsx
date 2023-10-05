@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
-const NewLink = () => {
+interface NewLinkProps {
+    deleteLink:()=>void
+}
+
+const NewLink =({deleteLink}:NewLinkProps )=> {
 const {links,setlinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
@@ -20,6 +24,8 @@ const {links,setlinks} = useGlobalContext();
     "Codepen",
     "Twitch",
   ];
+
+ 
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
@@ -34,7 +40,9 @@ const {links,setlinks} = useGlobalContext();
         </div>
 
         <div>
-          <button className="text-grey text-[16px]">Remove</button>
+          <button onClick={()=>{
+            deleteLink()
+          }} className="text-grey text-[16px]">Remove</button>
         </div>
       </div>
       <div className="flex flex-col mt-3">
