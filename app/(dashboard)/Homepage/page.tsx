@@ -1,10 +1,18 @@
 'use client'
 import Button from '@/app/components/Button'
-import React,{useState} from 'react'
+import React,{useEffect,useState} from 'react'
 import NewLink from '../NewLink'
 import Image from 'next/image'
 import IllustrationEmpty from '../IllustrationEmpty'
+import { useGlobalContext } from '../(context)/store'
 const Homepage = () => {
+ 
+  const [link,setLink] = useState([]);
+  const {links,setlinks} = useGlobalContext();
+  const addNewLink = (e: { preventDefault: () => void }) => {    
+    setlinks([])
+  }
+  console.log(links)
   return (
     <div className='flex justify-center items-center'>
       <div className='hidden md:flex w-[560px]'>
@@ -16,7 +24,6 @@ const Homepage = () => {
                 alt=''
             />
         </div>
-           
         </div>
         <div className='flex flex-col justify-center w-full'>
       <div className='flex flex-col mt-8 mb-8'>
@@ -27,17 +34,17 @@ const Homepage = () => {
       <Button
         text='+ Add new Link'
         textColor='text-purple'
-        onClick={()=>{}}
+        onClick={addNewLink}
         color='bg-white'
         disabled={false}
       />
       </div>
-      {/* <div>
-        <IllustrationEmpty/>
-      </div> */}
       <div>
-        <NewLink/>
+        <IllustrationEmpty/>
       </div>
+      { <div>
+        <NewLink/>
+      </div>}
     </div>
     </div>
    
