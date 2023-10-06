@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 interface NewLinkProps {
     deleteLink:()=>void,
-    id:number
+    index:number
 }
 
-const NewLink =({deleteLink,id}:NewLinkProps )=> {
+const NewLink =({deleteLink,index}:NewLinkProps )=> {
 const {links,setlinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
@@ -26,7 +26,11 @@ const {links,setlinks} = useGlobalContext();
     "Twitch",
   ];
   console.log('new link',links)
- 
+  // useEffect(()=>{
+  //   setlinks([...links,{
+  //       platform:selected
+  //   }])
+  // },[selected,setlinks,links])
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
@@ -37,7 +41,7 @@ const {links,setlinks} = useGlobalContext();
             width={20}
             alt=""
           />
-          <p className="text-grey ml-2">{`#Link ${id}`}</p>
+          <p className="text-grey ml-2">{`#Link ${index}`}</p>
         </div>
 
         <div>
@@ -50,19 +54,40 @@ const {links,setlinks} = useGlobalContext();
         <div className="flex">
           <p className="text-darkgrey text-[12px] font-[400]">Platform</p>
         </div>
-        {
-          <select
+    {
+      links.map((item,index)=>{
+        return item && <select
+        value={selected}
+        onChange={
+            (e) => {
+                setSelected(e.target.value)
+            }
+        }
+      >
+        <option value=''>{}</option>
+        {options.map((option,index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      })
+    }
+          {/* <select
             value={selected}
-            onChange={(e) => setSelected(e.target.value)}
+            onChange={
+                (e) => {
+                    setSelected(e.target.value)
+                }
+            }
           >
             <option value=''>{}</option>
-            {options.map((option) => (
-              <option key={option} value={option}>
+            {options.map((option,id) => (
+              <option key={id} value={option}>
                 {option}
               </option>
             ))}
-          </select>
-        }
+          </select> */}
       </div>
       <div className="flex mt-5 w-full">
         <div className="flex items-center mr-2">

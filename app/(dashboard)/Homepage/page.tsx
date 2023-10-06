@@ -10,10 +10,9 @@ const Homepage = () => {
 
   const {links,setlinks} = useGlobalContext();
   const addNewLink = (e: { preventDefault: () => void }) => { 
-
     setlinks([...links,{
-   
-      link:'New Item'
+      link:'New Item',
+      platform:''
     }])
   }
   const deleteLink = (i:number) => {
@@ -21,7 +20,6 @@ const Homepage = () => {
     linkCopy.splice(i,1);
     setlinks(linkCopy)
   }
-  console.log(links)
   return (
     <div className='flex justify-center items-center'>
       <div className='hidden md:flex w-[560px]'>
@@ -55,7 +53,7 @@ const Homepage = () => {
         {links.map((link,index)=>{
             return (
               <div key={index}>
-                  <NewLink id={index} deleteLink={()=>deleteLink(index)}/>
+                  <NewLink index={index} deleteLink={()=>deleteLink(index)}/>
                 </div>
             )
         })}
