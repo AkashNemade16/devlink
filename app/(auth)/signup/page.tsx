@@ -16,18 +16,19 @@ const SignUp = () => {
     e.preventDefault()
     setError('')
     const supabase = createClientComponentClient()
-    const{error} = await supabase.auth.signUp({
+    const {data,error} = await supabase.auth.signUp({
         email,
         password,
         options:{
             emailRedirectTo:`${location.origin}/api/auth/callback`
         }
     })
+    console.log(data.user?.id)
     if(error){
         setError(error.message)
     }
     if(!error){
-        router.push('/Verify')
+        router.push('/Homepage')
     }
     router.refresh()
   }

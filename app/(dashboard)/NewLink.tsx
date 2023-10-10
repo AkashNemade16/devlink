@@ -1,10 +1,10 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 interface NewLinkProps {
     deleteLink:()=>void,
-    index:number
+    index:number,
 }
 
 const NewLink =({deleteLink,index}:NewLinkProps )=> {
@@ -25,12 +25,15 @@ const {links,setlinks} = useGlobalContext();
     "Codepen",
     "Twitch",
   ];
+
+// useEffect(()=>{
+//   setlinks([...links,{
+//     title:selected,
+//     url:inputlink,
+//     userId:'',
+//   }])
+// },[])
   console.log('new link',links)
-  // useEffect(()=>{
-  //   setlinks([...links,{
-  //       platform:selected
-  //   }])
-  // },[selected,setlinks,links])
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
@@ -55,8 +58,7 @@ const {links,setlinks} = useGlobalContext();
           <p className="text-darkgrey text-[12px] font-[400]">Platform</p>
         </div>
     {
-      links.map((item,index)=>{
-        return item && <select
+     <select
         value={selected}
         onChange={
             (e) => {
@@ -71,23 +73,8 @@ const {links,setlinks} = useGlobalContext();
           </option>
         ))}
       </select>
-      })
     }
-          {/* <select
-            value={selected}
-            onChange={
-                (e) => {
-                    setSelected(e.target.value)
-                }
-            }
-          >
-            <option value=''>{}</option>
-            {options.map((option,id) => (
-              <option key={id} value={option}>
-                {option}
-              </option>
-            ))}
-          </select> */}
+      
       </div>
       <div className="flex mt-5 w-full">
         <div className="flex items-center mr-2">

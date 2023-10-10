@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     setError("");
     const supabase = createClientComponentClient();
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data,error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -23,7 +23,7 @@ const Login = () => {
       setError(error.message);
     }
     if (!error) {
-      router.push("/");
+      router.push("/Homepage");
     }
   };
   return (

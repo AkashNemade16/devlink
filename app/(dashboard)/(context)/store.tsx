@@ -2,6 +2,7 @@
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
 type DataType = {
+   title:string,
    link?: string,
    platform?:string,
 }

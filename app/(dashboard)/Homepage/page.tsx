@@ -5,21 +5,38 @@ import NewLink from '../NewLink'
 import Image from 'next/image'
 import IllustrationEmpty from '../IllustrationEmpty'
 import { useGlobalContext } from '../(context)/store'
+import supabase from '@/utils/supabaseClient'
 
 const Homepage = () => {
-
+  const [userId,setUserId] = useState<string>()
+  useEffect(()=>{
+    const getUser = async () => {
+      const user = await supabase.auth.getUser();
+      console.log("user",user)
+      setUserId(user?.data?.user?.id)
+    };
+    getUser()
+  },[])
   const {links,setlinks} = useGlobalContext();
-  const addNewLink = (e: { preventDefault: () => void }) => { 
+  const addNewLink = async() => { 
+    const {data,error} = await supabase.from("links").insert({
+      title:'',
+      url:'',
+      user_id:''
+    })
     setlinks([...links,{
-      link:'New Item',
-      platform:''
+      title:'',
+      url:'',
+      userId:'',
     }])
   }
+
   const deleteLink = (i:number) => {
     let linkCopy = [...links];
     linkCopy.splice(i,1);
     setlinks(linkCopy)
   }
+  console.log('link',links)
   return (
     <div className='flex justify-center items-center'>
       <div className='hidden md:flex w-[560px]'>
@@ -50,10 +67,15 @@ const Homepage = () => {
         <IllustrationEmpty/>
       </div>}
       { links.length !==0  && <div>
-        {links.map((link,index)=>{
+        {links.map((item,index)=>{
             return (
               <div key={index}>
-                  <NewLink index={index} deleteLink={()=>deleteLink(index)}/>
+                {item &&
+                  <NewLink 
+                  index={index} 
+                  deleteLink={()=>deleteLink(index)}
+                  />
+                }
                 </div>
             )
         })}
