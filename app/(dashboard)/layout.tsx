@@ -20,11 +20,13 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex flex-col justify-center w-[311px] md:w-full items-center">
-      <DashHeader />
+    
       <GlobalContextProvider>
+      <DashHeader />
         {children}
+        <DashFooter />
       </GlobalContextProvider>
-      <DashFooter />
+     
     </div>
   );
 }

@@ -1,32 +1,53 @@
 'use client'
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
-type DataType = {
-   title:string,
-   link?: string,
-   platform?:string,
-}
-
-interface ContextProps {
-    links: DataType[],
-    setlinks: Dispatch<SetStateAction<DataType[]>>
+export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => {
+  const [links, setLinks] = useState<{ title: string; url: string; userId: string; }[]>([{
+    title:'',
+    url:'',
+    userId:''
+  }])
+  const [showLinks, setShowLinks] = useState<boolean>(true)
+  const [userId, setUserId] = useState<string>('')
+  const [title, setTitle] = useState<string>('')
+  const [url, setUrl] = useState<string>('')
+  return (
+    <GlobalContext.Provider value={{links, setLinks, showLinks, setShowLinks, userId, setUserId, title, setTitle, url, setUrl}}>
+      {children}
+    </GlobalContext.Provider>
+  )
 }
 
 const GlobalContext = createContext<ContextProps>({
-    links: [],
-    setlinks: (): DataType[] => [] 
+  links:[{
+    title:'',
+    url:'',
+    userId:''
+  }],
+  showLinks:true,
+  userId:'',
+  title:'',
+  url:'',
+  setUserId:():string=>'',
+  setTitle:():string=>'',
+  setUrl:():string=>'',
+  setShowLinks:():boolean=>true,
+  setLinks:():[]=>[]
 })
 
-export const GlobalContextProvider = ({ children }:{
-    children: React.ReactNode;
-  }) => {
-    const [links, setlinks] = useState<[] | DataType[]>([]);
-    
-    return (
-        <GlobalContext.Provider value={{ links, setlinks }}>
-            {children}
-        </GlobalContext.Provider>
-    )
-};
+interface ContextProps {
+  links: { title: string; url: string; userId: string; }[]
+  setLinks: Dispatch<SetStateAction<{ title: string; url: string; userId: string; }[]>>
+  showLinks: boolean
+  setShowLinks: Dispatch<SetStateAction<boolean>>
+  userId: string
+  setUserId: Dispatch<SetStateAction<string>>
+  title: string
+  setTitle: Dispatch<SetStateAction<string>>
+  url: string
+  setUrl: Dispatch<SetStateAction<string>>
+}
+
+
 
 export const useGlobalContext = () => useContext(GlobalContext);

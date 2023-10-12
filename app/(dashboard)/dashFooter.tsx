@@ -1,18 +1,27 @@
 "use client";
-import React from "react";
+import React,{useState,useEffect} from "react";
 import Button from "../components/Button";
+import { useGlobalContext } from "./(context)/store";
 const DashFooter = () => {
+  const {title,url,userId,showLinks,setShowLinks,links} = useGlobalContext()
+
+  useEffect(()=>{
+   showLinks
+   links
+  },[showLinks,links])
+  console.log('footer',links)
+  console.log(showLinks)
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2">
-      <div className="mt-3">
+      <div className="mt-3 border-lightPurple">
         <Button
           text="Save"
           onClick={() => {
             console.log("clicked");
           }}
-          color="bg-purple"
+          color={`${showLinks?"bg-purple":"bg-purple opacity-50"}`}
           textColor="text-white"
-          disabled={true}
+          disabled={!showLinks}
         />
       </div>
     </div>

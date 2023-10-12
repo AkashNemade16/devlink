@@ -8,7 +8,7 @@ interface NewLinkProps {
 }
 
 const NewLink =({deleteLink,index}:NewLinkProps )=> {
-const {links,setlinks} = useGlobalContext();
+const {setUrl,setTitle} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const options = [
@@ -26,14 +26,13 @@ const {links,setlinks} = useGlobalContext();
     "Twitch",
   ];
 
-// useEffect(()=>{
-//   setlinks([...links,{
-//     title:selected,
-//     url:inputlink,
-//     userId:'',
-//   }])
-// },[])
-  console.log('new link',links)
+useEffect(()=>{
+  if(inputlink!=="" && selected!=="" ){
+    setUrl(inputlink)
+    setTitle(selected)
+  }
+},[inputlink, selected, setTitle, setUrl])
+  
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
