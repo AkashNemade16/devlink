@@ -4,13 +4,7 @@ import Button from "../components/Button";
 import { useGlobalContext } from "./(context)/store";
 const DashFooter = () => {
   const {title,url,userId,showLinks,setShowLinks,links} = useGlobalContext()
-
-  useEffect(()=>{
-   showLinks
-   links
-  },[showLinks,links])
-  console.log('footer',links)
-  console.log(showLinks)
+console.log(links)
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2">
       <div className="mt-3 border-lightPurple">

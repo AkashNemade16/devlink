@@ -2,11 +2,7 @@
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
 export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => {
-  const [links, setLinks] = useState<{ title: string; url: string; userId: string; }[]>([{
-    title:'',
-    url:'',
-    userId:''
-  }])
+  const [links, setLinks] = useState<{ title: string; url: string; userId: string; }[]>([])
   const [showLinks, setShowLinks] = useState<boolean>(true)
   const [userId, setUserId] = useState<string>('')
   const [title, setTitle] = useState<string>('')

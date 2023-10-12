@@ -23,12 +23,14 @@ const Homepage = () => {
   console.log("urltitle", url, title,userId);
   const addNewLink = async () => {
     try {
+      setLinks([...links,{
+        title:title,
+        url:url,
+        userId:userId
+      }])
+       
       if (title && url && userId) {
-        setLinks([...links,{
-          title:title,
-          url:url,
-          userId:userId
-        }])
+       
         if (links.length>0) {
           const { data, error } = await supabase.from("links").insert({
             devLinkData:[{
