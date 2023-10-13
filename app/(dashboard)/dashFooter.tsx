@@ -1,17 +1,32 @@
 "use client";
 import React,{useState,useEffect} from "react";
 import Button from "../components/Button";
+import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
+
 const DashFooter = () => {
-  const {title,url,userId,showLinks,setShowLinks,links} = useGlobalContext()
-console.log('footer',links,url,title)
+  const {title,url,userId,links} = useGlobalContext()
+  const handleSubmit = async () => {
+    try {
+        const { data, error } = await supabase.from("links").insert({
+          devLinkData:[{
+            links:links,
+          }]
+        }).select();
+        if (error) throw error;
+        console.log(data, "handleSubmit");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+console.log('footer',links,userId,title,url)
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2">
       <div className="mt-3 border-lightPurple">
         <Button
           text="Save"
           onClick={() => {
-            console.log("clicked");
+            handleSubmit()
           }}
           color={`${links.length===0?"bg-purple opacity-50":"bg-purple"}`}
           textColor="text-white"
