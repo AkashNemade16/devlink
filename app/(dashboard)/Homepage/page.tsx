@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/components/Button";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import NewLink from "../NewLink";
 import Image from "next/image";
 import IllustrationEmpty from "../IllustrationEmpty";
@@ -20,13 +20,17 @@ const Homepage = () => {
     };
     getUser();
   }, []);
-  console.log("urltitle", url, title,userId);
+
+  
+
   const addNewLink = async () => {
+    if (userId) {
       setLinks([...links,{
         title:title,
         url:url,
-        userId:userId
+        userId:userId,
       }])
+    }
   };
 
   const deleteLink = (i: number) => {
@@ -74,10 +78,13 @@ const Homepage = () => {
           {links && (
             <div>
               {links.map((item: { title: string; url: string; userId: string; }, index:number) => {
+                  
                 return (
                   <div key={index}>
                     {item && (
                       <NewLink
+                        linkTitle={item.title}
+                        linkUrl={item.url}
                         index={index}
                         deleteLink={() => deleteLink(index)}
                       />

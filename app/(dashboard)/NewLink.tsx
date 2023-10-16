@@ -1,14 +1,16 @@
 "use client";
-import React, { useState,useEffect, useCallback } from "react";
+import React, { useState,useEffect, useCallback, use } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 interface NewLinkProps {
     deleteLink:()=>void,
     index:number,
+    linkTitle:string,
+    linkUrl:string
 }
 
-const NewLink =({deleteLink,index}:NewLinkProps )=> {
-const {setUrl,setTitle} = useGlobalContext();
+const NewLink =({deleteLink,index,linkTitle,linkUrl}:NewLinkProps )=> {
+const {setUrl,setTitle,links,setLinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const options = [
@@ -27,12 +29,21 @@ const {setUrl,setTitle} = useGlobalContext();
   ];
 
 useEffect(()=>{
-  if(inputlink!=="" && selected!=="" ){
+  if(inputlink!=="" && selected!==""){
     setUrl(inputlink)
     setTitle(selected)
   }
+  updateLinks()
 },[inputlink, selected, setTitle, setUrl])
-  
+
+const updateLinks = () => {
+  links.map((item,i)=>{
+    if(index===i){
+      item.title = selected
+      item.url = inputlink
+    }
+  })
+}
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">

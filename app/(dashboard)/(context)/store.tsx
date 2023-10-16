@@ -2,7 +2,7 @@
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
 export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => {
-  const [links, setLinks] = useState<{ title: string; url: string; userId: string; }[]>([])
+  const [links, setLinks] = useState<{ title: string; url: string; userId: string }[]>([])
   const [showLinks, setShowLinks] = useState<boolean>(true)
   const [userId, setUserId] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -14,11 +14,13 @@ export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => 
   )
 }
 
+
+
 const GlobalContext = createContext<ContextProps>({
   links:[{
     title:'',
     url:'',
-    userId:''
+    userId:'',
   }],
   showLinks:true,
   userId:'',
@@ -32,8 +34,8 @@ const GlobalContext = createContext<ContextProps>({
 })
 
 interface ContextProps {
-  links: { title: string; url: string; userId: string; }[]
-  setLinks: Dispatch<SetStateAction<{ title: string; url: string; userId: string; }[]>>
+  links: { title: string; url: string; userId: string }[]
+  setLinks: Dispatch<SetStateAction<{ title: string; url: string; userId: string}[]>>
   showLinks: boolean
   setShowLinks: Dispatch<SetStateAction<boolean>>
   userId: string
@@ -43,7 +45,5 @@ interface ContextProps {
   url: string
   setUrl: Dispatch<SetStateAction<string>>
 }
-
-
 
 export const useGlobalContext = () => useContext(GlobalContext);

@@ -5,7 +5,8 @@ import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const {title,url,userId,links} = useGlobalContext()
+  const {title,url,userId,links,setLinks} = useGlobalContext()
+
   const handleSubmit = async () => {
     try {
         const { data, error } = await supabase.from("links").insert({
