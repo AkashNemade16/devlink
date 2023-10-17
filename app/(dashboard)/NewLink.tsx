@@ -2,6 +2,8 @@
 import React, { useState,useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
+import { it } from "node:test";
+
 interface NewLinkProps {
     deleteLink:()=>void,
     index:number,
@@ -28,6 +30,7 @@ const {setUrl,setTitle,links,setLinks} = useGlobalContext();
     "Twitch",
   ];
 
+  
 useEffect(()=>{
   const updateLinks = () => {
     setLinks(prevLinks => prevLinks.map((item,i)=>{
@@ -39,13 +42,13 @@ useEffect(()=>{
     }))
   }
 
+
   if(inputlink!=="" && selected!==""){
     setUrl(inputlink)
     setTitle(selected)
     updateLinks()
   }
 },[inputlink, selected, setTitle, setUrl, setLinks, index])
-
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
@@ -71,7 +74,7 @@ useEffect(()=>{
         </div>
     {
      <select
-        value={selected}
+        value={selected||linkTitle}
         onChange={
             (e) => {
                 setSelected(e.target.value)
@@ -94,7 +97,7 @@ useEffect(()=>{
         </div>
         <div className="flex w-full">
           <input
-            value={inputlink}
+            value={inputlink || linkUrl}
             onChange={(e) => setInputLink(e.target.value)}
             className="text-darkgrey bg-lightGrey w-full focus:outline-none"
             type="text"

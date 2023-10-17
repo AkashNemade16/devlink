@@ -1,12 +1,13 @@
 'use client'
-import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
-
+import { createContext, useContext, Dispatch, SetStateAction, useState, useEffect } from "react";
 export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => {
   const [links, setLinks] = useState<{ title: string; url: string; userId: string }[]>([])
   const [showLinks, setShowLinks] = useState<boolean>(true)
   const [userId, setUserId] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [url, setUrl] = useState<string>('')
+
+  
   return (
     <GlobalContext.Provider value={{links, setLinks, showLinks, setShowLinks, userId, setUserId, title, setTitle, url, setUrl}}>
       {children}
@@ -14,14 +15,8 @@ export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => 
   )
 }
 
-
-
 const GlobalContext = createContext<ContextProps>({
-  links:[{
-    title:'',
-    url:'',
-    userId:'',
-  }],
+  links:[],
   showLinks:true,
   userId:'',
   title:'',

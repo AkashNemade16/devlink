@@ -6,47 +6,50 @@ import Image from "next/image";
 import IllustrationEmpty from "../IllustrationEmpty";
 import { useGlobalContext } from "../(context)/store";
 import supabase from "@/utils/supabaseClient";
-import { get } from "http";
 
 const Homepage = () => {
-
   const [userId, setUserId] = useState<string>();
   const { url, title,links,setLinks} = useGlobalContext();
 
-  useEffect(() => {
+  useEffect(()=>{
     const getUser = async () => {
       const user = await supabase.auth.getUser();
       console.log("user", user);
       setUserId(user?.data?.user?.id);
     };
-    getUser();
-
+   
     const getData = async () => { 
-    
       const { data, error } = await supabase.from("links").select();
       if (error) throw error;
       console.log(data, "getData");
       const fetchData = () => {
         const sortedData = data[0].devLinkData[0].links
-        sortedData.map((item:any)=>{
-         console.log('item',item)
-        })
+        setLinks([...sortedData])
       }
       fetchData()
-   
-  }
+    }
+    getUser();
     getData()
-  }, [setLinks]);
+  },[setLinks])
 
-  
 
-  const addNewLink = async () => {
+  // const addNewLink = async () => {
+  //   if (userId) {
+  //     setLinks([...links,{
+  //       title:title,
+  //       url:url,
+  //       userId:userId,
+  //     }])
+  //   }
+  // };
+
+  const addNewLink = () => {
     if (userId) {
-      setLinks([...links,{
-        title:title,
-        url:url,
-        userId:userId,
-      }])
+      setLinks(prevLinks => [...prevLinks, {
+        title: title,
+        url: url,
+        userId: userId,
+        }])
     }
   };
 
@@ -56,7 +59,7 @@ const Homepage = () => {
     setLinks(copytask)
     console.log('hello')
   };
-  console.log(links)
+  console.log('links',links)
   return (
     <div className="flex justify-center items-center">
       <div className="hidden md:flex w-[560px]">
