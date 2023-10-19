@@ -1,15 +1,14 @@
 'use client'
-import { createContext, useContext, Dispatch, SetStateAction, useState, useEffect } from "react";
+import { createContext, useContext, Dispatch, SetStateAction, useState} from "react";
 export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => {
-  const [links, setLinks] = useState<{ title: string; url: string; userId: string }[]>([])
-  const [showLinks, setShowLinks] = useState<boolean>(true)
+  const [links, setLinks] = useState<{ type: string; url: string; id:string}[]>([])
   const [userId, setUserId] = useState<string>('')
-  const [title, setTitle] = useState<string>('')
+  const [type, setType] = useState<string>('')
   const [url, setUrl] = useState<string>('')
+  const [id, setId] = useState<string>('')
 
-  
   return (
-    <GlobalContext.Provider value={{links, setLinks, showLinks, setShowLinks, userId, setUserId, title, setTitle, url, setUrl}}>
+    <GlobalContext.Provider value={{links, setLinks,userId, setUserId, type, setType, url, setUrl, id,setId}}>
       {children}
     </GlobalContext.Provider>
   )
@@ -17,28 +16,28 @@ export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => 
 
 const GlobalContext = createContext<ContextProps>({
   links:[],
-  showLinks:true,
   userId:'',
-  title:'',
+  type:'',
   url:'',
+  id:'',
+  setId:():string=>'',
   setUserId:():string=>'',
-  setTitle:():string=>'',
+  setType:():string=>'',
   setUrl:():string=>'',
-  setShowLinks:():boolean=>true,
   setLinks:():[]=>[]
 })
 
 interface ContextProps {
-  links: { title: string; url: string; userId: string }[]
-  setLinks: Dispatch<SetStateAction<{ title: string; url: string; userId: string}[]>>
-  showLinks: boolean
-  setShowLinks: Dispatch<SetStateAction<boolean>>
+  links: { type: string; url: string; id:string }[]
+  setLinks: Dispatch<SetStateAction<{ type: string; url: string; id:string}[]>>
   userId: string
   setUserId: Dispatch<SetStateAction<string>>
-  title: string
-  setTitle: Dispatch<SetStateAction<string>>
+  type: string
+  setType: Dispatch<SetStateAction<string>>
   url: string
   setUrl: Dispatch<SetStateAction<string>>
+  id: string
+  setId: Dispatch<SetStateAction<string>>
 }
 
 export const useGlobalContext = () => useContext(GlobalContext);

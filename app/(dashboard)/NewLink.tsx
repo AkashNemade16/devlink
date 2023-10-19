@@ -2,7 +2,6 @@
 import React, { useState,useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
-import { it } from "node:test";
 
 interface NewLinkProps {
     deleteLink:()=>void,
@@ -12,7 +11,7 @@ interface NewLinkProps {
 }
 
 const NewLink =({deleteLink,index,linkTitle,linkUrl}:NewLinkProps )=> {
-const {setUrl,setTitle,links,setLinks} = useGlobalContext();
+const {setUrl,setType,links,setLinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const options = [
@@ -35,7 +34,7 @@ useEffect(()=>{
   const updateLinks = () => {
     setLinks(prevLinks => prevLinks.map((item,i)=>{
       if(index===i){
-        item.title = selected
+        item.type = selected
         item.url = inputlink
       }
       return item;
@@ -45,10 +44,10 @@ useEffect(()=>{
 
   if(inputlink!=="" && selected!==""){
     setUrl(inputlink)
-    setTitle(selected)
+    setType(selected)
     updateLinks()
   }
-},[inputlink, selected, setTitle, setUrl, setLinks, index])
+},[inputlink, selected, setType, setUrl, setLinks, index])
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">

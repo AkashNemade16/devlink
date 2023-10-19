@@ -9,7 +9,7 @@ import supabase from "@/utils/supabaseClient";
 
 const Homepage = () => {
   const [userId, setUserId] = useState<string>();
-  const { url, title,links,setLinks} = useGlobalContext();
+  const { url, type,id,setType,setUrl, links,setLinks} = useGlobalContext();
 
   useEffect(()=>{
     const getUser = async () => {
@@ -22,42 +22,35 @@ const Homepage = () => {
       const { data, error } = await supabase.from("links").select();
       if (error) throw error;
       console.log(data, "getData");
-      const fetchData = () => {
-        const sortedData = data[0].devLinkData[0].links
-        setLinks([...sortedData])
-      }
-      fetchData()
+      setLinks(data)
     }
     getUser();
     getData()
   },[setLinks])
 
 
-  // const addNewLink = async () => {
-  //   if (userId) {
-  //     setLinks([...links,{
-  //       title:title,
-  //       url:url,
-  //       userId:userId,
-  //     }])
-  //   }
-  // };
-
   const addNewLink = () => {
     if (userId) {
       setLinks(prevLinks => [...prevLinks, {
-        title: title,
+        type: type,
         url: url,
-        userId: userId,
+        id: id,
         }])
     }
   };
 
-  const deleteLink = (i: number) => {
+  const deleteLink = (i:number) => {
     let copytask = [...links]
-    copytask.splice(i,1)
-    setLinks(copytask)
-    console.log('hello')
+    copytask.map((item,index)=>{
+      if(i===index){
+        const deleteLink = async () => {
+          const {data,error} = await supabase.from("links").delete().eq('id',item.id)
+          console.log('delete',data,error)
+        }
+        deleteLink()
+      } 
+    })
+    console.log('delete')
   };
   console.log('links',links)
   return (
@@ -97,13 +90,13 @@ const Homepage = () => {
         <div>
           {links && (
             <div>
-              {links.map((item: { title: string; url: string; userId: string; }, index:number) => {
+              {links.map((item: { type: string; url: string}, index:number) => {
                   
                 return (
                   <div key={index}>
                     {item && (
                       <NewLink
-                        linkTitle={item.title}
+                        linkTitle={item.type}
                         linkUrl={item.url}
                         index={index}
                         deleteLink={() => deleteLink(index)}
