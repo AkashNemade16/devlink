@@ -42,7 +42,7 @@ useEffect(()=>{
   }
 
 
-  if(inputlink!=="" && selected!==""){
+  if(inputlink!=="" || selected!==""){
     setUrl(inputlink)
     setType(selected)
     updateLinks()

@@ -8,10 +8,24 @@ export const GlobalContextProvider = ({children}:{children:React.ReactNode}) => 
   const [id, setId] = useState<string>('')
 
   return (
-    <GlobalContext.Provider value={{links, setLinks,userId, setUserId, type, setType, url, setUrl, id,setId}}>
+    <GlobalContext.Provider value={{links, setLinks,userId, setUserId, type, setType, url, setUrl, id, setId}}>
       {children}
     </GlobalContext.Provider>
   )
+}
+
+
+interface ContextProps {
+  links: { type: string; url: string; id:string }[]
+  setLinks: Dispatch<SetStateAction<{ type: string; url: string; id:string}[]>>
+  userId: string
+  setUserId: Dispatch<SetStateAction<string>>
+  type: string
+  setType: Dispatch<SetStateAction<string>>
+  url: string
+  setUrl: Dispatch<SetStateAction<string>>
+  id: string
+  setId: Dispatch<SetStateAction<string>>
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -36,8 +50,6 @@ interface ContextProps {
   setType: Dispatch<SetStateAction<string>>
   url: string
   setUrl: Dispatch<SetStateAction<string>>
-  id: string
-  setId: Dispatch<SetStateAction<string>>
 }
 
 export const useGlobalContext = () => useContext(GlobalContext);

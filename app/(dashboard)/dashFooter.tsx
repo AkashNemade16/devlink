@@ -5,17 +5,28 @@ import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const {type,url,userId,links,setLinks,id} = useGlobalContext()
-  const getType = links.map((item)=>item.type)
-  const getUrl = links.map((item)=>item.url)
+  const {type,url,userId,links,id,setLinks} = useGlobalContext()
+  console.log(id,'id')
+  console.log(links,'links')
   const handleSubmit = async () => {
     try {
-        const { data, error } = await supabase.from("links").insert({
-          type:getType,
-          url:getUrl,
-        }).select('*');
-        if (error) throw error;
-        console.log(data, "handleSubmit");
+        const {data,error} = await supabase.from("links").select().eq("id",id)
+        if(data && data.length>0){
+          const {data,error} = await supabase.from("links").update({
+            devlinkdata:links
+          }).eq("id",id)
+          console.log('handleupdate',data,error)
+        }
+        // else{
+        //   const { data, error } = await supabase.from("links").insert({
+        //     devlinkdata:{
+        //       type:type,
+        //       url:url,  
+        //     }
+        //   }).select();
+        //   if (error) throw error;
+        //   console.log(data, "handleSubmit");
+        // }
     } catch (error) {
       console.log(error);
     }

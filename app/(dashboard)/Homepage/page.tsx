@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/components/Button";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewLink from "../NewLink";
 import Image from "next/image";
 import IllustrationEmpty from "../IllustrationEmpty";
@@ -9,7 +9,7 @@ import supabase from "@/utils/supabaseClient";
 
 const Homepage = () => {
   const [userId, setUserId] = useState<string>();
-  const { url, type,id,setType,setUrl, links,setLinks} = useGlobalContext();
+  const { url, type,setType,setUrl, links,setLinks, id,setId} = useGlobalContext();
 
   useEffect(()=>{
     const getUser = async () => {
@@ -22,35 +22,40 @@ const Homepage = () => {
       const { data, error } = await supabase.from("links").select();
       if (error) throw error;
       console.log(data, "getData");
-      setLinks(data)
+      const structuredData = data.map((link,index)=>{
+        setType(link.devlinkdata.type)
+        setUrl(link.devlinkdata.url)
+        setId(link.id)
+        return {
+          type: link.devlinkdata.type,
+          url: link.devlinkdata.url,
+          id: link.id
+        }
+      })
+      console.log(structuredData)
+      setLinks(structuredData)
     }
     getUser();
     getData()
-  },[setLinks])
+  },[setLinks, setId, setType, setUrl])
 
 
   const addNewLink = () => {
+    setUrl("");
+    setType("");
     if (userId) {
       setLinks(prevLinks => [...prevLinks, {
         type: type,
         url: url,
-        id: id,
+        id: id
         }])
     }
   };
 
   const deleteLink = (i:number) => {
     let copytask = [...links]
-    copytask.map((item,index)=>{
-      if(i===index){
-        const deleteLink = async () => {
-          const {data,error} = await supabase.from("links").delete().eq('id',item.id)
-          console.log('delete',data,error)
-        }
-        deleteLink()
-      } 
-    })
-    console.log('delete')
+    copytask.splice(i,1)
+    setLinks(copytask)
   };
   console.log('links',links)
   return (
@@ -90,8 +95,7 @@ const Homepage = () => {
         <div>
           {links && (
             <div>
-              {links.map((item: { type: string; url: string}, index:number) => {
-                  
+              {links.map((item, index:number) => {
                 return (
                   <div key={index}>
                     {item && (
