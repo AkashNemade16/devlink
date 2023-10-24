@@ -11,7 +11,7 @@ interface NewLinkProps {
 }
 
 const NewLink =({deleteLink,index,linkTitle,linkUrl}:NewLinkProps )=> {
-const {setUrl,setType,links,setLinks} = useGlobalContext();
+const {links,setLinks} = useGlobalContext();
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const options = [
@@ -43,11 +43,9 @@ useEffect(()=>{
 
 
   if(inputlink!=="" || selected!==""){
-    setUrl(inputlink)
-    setType(selected)
     updateLinks()
   }
-},[inputlink, selected, setType, setUrl, setLinks, index])
+},[inputlink, selected, setLinks, index])
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">

@@ -5,33 +5,24 @@ import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const {type,url,userId,links,id,setLinks} = useGlobalContext()
-  console.log(id,'id')
-  console.log(links,'links')
+  const {links,id} = useGlobalContext();
   const handleSubmit = async () => {
     try {
-        const {data,error} = await supabase.from("links").select().eq("id",id)
-        if(data && data.length>0){
-          const {data,error} = await supabase.from("links").update({
-            devlinkdata:links
-          }).eq("id",id)
-          console.log('handleupdate',data,error)
-        }
-        // else{
-        //   const { data, error } = await supabase.from("links").insert({
-        //     devlinkdata:{
-        //       type:type,
-        //       url:url,  
-        //     }
-        //   }).select();
-        //   if (error) throw error;
-        //   console.log(data, "handleSubmit");
-        // }
+      if(links.length>0 && id!==0){
+        const {data,error} = await supabase.from("links").update({
+          devlinkdata:links
+        }).eq('id',id)
+        console.log(data, "handleSubmit");
+      }else{
+        const { data, error } = await supabase.from("links").insert({
+          devlinkdata:links
+        }).select();
+        if (error) throw error;
+      }
     } catch (error) {
       console.log(error);
     }
-  }
-console.log('footer',links,userId,type,url)
+  };
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2">
       <div className="mt-3 border-lightPurple">

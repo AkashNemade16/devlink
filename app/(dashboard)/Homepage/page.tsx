@@ -6,10 +6,9 @@ import Image from "next/image";
 import IllustrationEmpty from "../IllustrationEmpty";
 import { useGlobalContext } from "../(context)/store";
 import supabase from "@/utils/supabaseClient";
-
 const Homepage = () => {
   const [userId, setUserId] = useState<string>();
-  const { url, type,setType,setUrl, links,setLinks, id,setId} = useGlobalContext();
+  const { links,setLinks,id, setId} = useGlobalContext();
 
   useEffect(()=>{
     const getUser = async () => {
@@ -22,33 +21,21 @@ const Homepage = () => {
       const { data, error } = await supabase.from("links").select();
       if (error) throw error;
       console.log(data, "getData");
-      const structuredData = data.map((link,index)=>{
-        setType(link.devlinkdata.type)
-        setUrl(link.devlinkdata.url)
-        setId(link.id)
-        return {
-          type: link.devlinkdata.type,
-          url: link.devlinkdata.url,
-          id: link.id
-        }
+      const destructuredData = data.map((item)=>{
+        setId(item.id)
+        return item.devlinkdata
       })
-      console.log(structuredData)
-      setLinks(structuredData)
+      setLinks(destructuredData[0])
     }
     getUser();
     getData()
-  },[setLinks, setId, setType, setUrl])
-
-
+  },[setId, setLinks])
   const addNewLink = () => {
-    setUrl("");
-    setType("");
     if (userId) {
-      setLinks(prevLinks => [...prevLinks, {
-        type: type,
-        url: url,
-        id: id
-        }])
+      setLinks([...links,{
+        type: "",
+        url: "",
+      }])
     }
   };
 
@@ -96,6 +83,7 @@ const Homepage = () => {
           {links && (
             <div>
               {links.map((item, index:number) => {
+                console.log(item)
                 return (
                   <div key={index}>
                     {item && (
