@@ -1,5 +1,5 @@
 "use client";
-import React,{useState,useEffect} from "react";
+import React from "react";
 import Button from "../components/Button";
 import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
@@ -9,12 +9,12 @@ const DashFooter = () => {
   const handleSubmit = async () => {
     try {
       if(links.length>0 && id!==0){
-        const {data,error} = await supabase.from("links").update({
+        const {data} = await supabase.from("links").update({
           devlinkdata:links
         }).eq('id',id)
         console.log(data, "handleSubmit");
       }else{
-        const { data, error } = await supabase.from("links").insert({
+        const { error } = await supabase.from("links").insert({
           devlinkdata:links
         }).select();
         if (error) throw error;
