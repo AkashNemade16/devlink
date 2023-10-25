@@ -1,19 +1,19 @@
 "use client";
-import React, { useState,useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 
 interface NewLinkProps {
-    deleteLink:()=>void,
-    index:number,
-    linkTitle:string,
-    linkUrl:string
+  deleteLink: () => void;
+  index: number;
+  linkTitle: string;
+  linkUrl: string;
 }
 
-const NewLink =({deleteLink,index,linkTitle,linkUrl}:NewLinkProps )=> {
-const {links,setLinks} = useGlobalContext();
+const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
+  const { setLinks} = useGlobalContext();
   const options = [
     "Github",
     "Codewards",
@@ -29,23 +29,23 @@ const {links,setLinks} = useGlobalContext();
     "Twitch",
   ];
 
-  
-useEffect(()=>{
-  const updateLinks = () => {
-    setLinks(prevLinks => prevLinks.map((item,i)=>{
-      if(index===i){
-        item.type = selected
-        item.url = inputlink
-      }
-      return item;
-    }))
-  }
+  useEffect(() => {
+    const updateLinks = () => {
+      setLinks((prevLinks) =>
+        prevLinks.map((item, i) => {
+          if (index === i) {
+            item.type = selected;
+            item.url = inputlink;
+          }
+          return item;
+        })
+      );
+    };
 
-
-  if(inputlink!=="" || selected!==""){
-    updateLinks()
-  }
-},[inputlink, selected, setLinks, index])
+    if (inputlink !== "" || selected !== "") {
+      updateLinks();
+    }
+  }, [inputlink, selected, setLinks, index]);
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
       <div className="flex flex-row justify-between w-full">
@@ -60,33 +60,35 @@ useEffect(()=>{
         </div>
 
         <div>
-          <button onClick={()=>{
-            deleteLink()
-          }} className="text-grey text-[16px]">Remove</button>
+          <button
+            onClick={() => {
+              deleteLink();
+            }}
+            className="text-grey text-[16px]"
+          >
+            Remove
+          </button>
         </div>
       </div>
       <div className="flex flex-col mt-3">
         <div className="flex">
           <p className="text-darkgrey text-[12px] font-[400]">Platform</p>
         </div>
-    {
-     <select
-        value={selected||linkTitle}
-        onChange={
-            (e) => {
-                setSelected(e.target.value)
-            }
+        {
+          <select
+            value={selected || linkTitle}
+            onChange={(e) => {
+              setSelected(e.target.value);
+            }}
+          >
+            <option value="">{}</option>
+            {options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         }
-      >
-        <option value=''>{}</option>
-        {options.map((option,index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    }
-      
       </div>
       <div className="flex mt-5 w-full">
         <div className="flex items-center mr-2">

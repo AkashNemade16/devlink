@@ -7,14 +7,15 @@ import IllustrationEmpty from "../IllustrationEmpty";
 import { useGlobalContext } from "../(context)/store";
 import supabase from "@/utils/supabaseClient";
 const Homepage = () => {
-  const { links, setLinks, setId,userId,setUserId,setEmail } = useGlobalContext();
+  const { links, setLinks, setId, userId, setUserId, setEmail } =
+    useGlobalContext();
 
   useEffect(() => {
     const getUser = async () => {
       const user = await supabase.auth.getUser();
       console.log("user", user);
-      setUserId(user?.data?.user?.id ?? '');
-      setEmail(user?.data?.user?.email ?? '')
+      setUserId(user?.data?.user?.id ?? "");
+      setEmail(user?.data?.user?.email ?? "");
     };
 
     const getData = async () => {
@@ -28,8 +29,8 @@ const Homepage = () => {
       setLinks(destructuredData[0]);
     };
     getUser();
-    // getData();
-  }, [setId, setLinks, setUserId,setEmail]);
+    getData();
+  }, [setId, setLinks, setUserId, setEmail]);
   const addNewLink = () => {
     if (userId) {
       setLinks([
@@ -52,7 +53,7 @@ const Homepage = () => {
     <div className="flex justify-center items-center">
       <div className="hidden md:flex w-[560px]">
         <div className="p-8">
-          <Illustrationphone/>
+          <Illustrationphone />
         </div>
       </div>
       <div className="flex flex-col justify-center w-full">
