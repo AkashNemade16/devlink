@@ -9,7 +9,6 @@ interface buttonProps {
 }
 
 const PreviewButton = ({ type, input, imageUrl, color }: buttonProps) => {
-  console.log(color);
   const colorVariants = {
     githubColor: "bg-githubColor",
     codeWarsColor: "bg-codeWarsColor",
@@ -27,12 +26,20 @@ const PreviewButton = ({ type, input, imageUrl, color }: buttonProps) => {
   }
   return (
     <div className={`flex w-[237px] flex-col rounded-md justify-center items-center ${colorVariants[color as keyof typeof colorVariants]}  mt-3`}>
-      <Link href={input || ""}>
-        <div className="flex flex-row">
+      <Link className="w-full pr-3 pl-3" href={input || ""}>
+        <div className="flex flex-row justify-between w-full">
           <div className="flex">
             {<Image src={imageUrl} height={20} width={20} alt={type} />}
           </div>
           <div className="flex text-white">{type}</div>
+          <div className="flex">
+            <Image
+              src={"images/icon-arrow-right.svg"}
+              height={20}
+              width={20}
+              alt="arrow"
+            />
+          </div>
         </div>
       </Link>
     </div>
