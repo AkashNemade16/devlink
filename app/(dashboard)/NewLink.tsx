@@ -16,7 +16,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
   const { setLinks} = useGlobalContext();
   const options = [
     "Github",
-    "Codewards",
+    "Codewars",
     "Stackoverflow",
     "FrontendMentor",
     "LinkedIn",
@@ -27,6 +27,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
     "Gitlab",
     "Codepen",
     "Twitch",
+    "freecodecamp",
   ];
 
   useEffect(() => {

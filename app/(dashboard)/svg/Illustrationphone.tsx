@@ -8,7 +8,7 @@ const Illustrationphone = () => {
       switch (item.type) {
         case "Github":
           return "/images/icon-github.svg";
-        case "Codewards":
+        case "Codewars":
           return "/images/icon-codewars.svg";
         case "Stackoverflow":
           return "/images/icon-stack-overflow.svg";
@@ -37,7 +37,45 @@ const Illustrationphone = () => {
     return images;
   };
   const getType = selectImages();
-  console.log("getType", getType);
+
+  const getColor = () => {  
+    const color = links.map((item) => {
+      switch (item.type) {
+        case "Github":
+          return "githubColor";
+        case "Codewars":
+          return "codeWarsColor";
+        case "Stackoverflow":
+          return "stackOverflowColor";
+        case "FrontendMentor":
+          return "frontEndMentorColor";
+        case "LinkedIn":
+          return "linkedinColor";
+        case "Twitter":
+          return "twitterColor";
+        case "Hashnode":
+          return "hashNodeColor";
+        case "Youtube":
+          return "youtubeColor";
+        case "Facebook":
+          return "facebookColor";
+        case "Gitlab":
+          return "gitLabColor";
+        case "Codepen":
+          return "codePenColor";
+        case "Twitch":
+          return "twitchColor";
+        case "freecodecamp":
+          return "freeCodeCampColor";
+        default:
+          return "githubColor";
+      }
+    });
+    return color;
+  }
+
+  const getColorType = getColor();
+  console.log(getColorType);
   return (
     <div>
       <svg
@@ -76,12 +114,13 @@ const Illustrationphone = () => {
               )}
             </foreignObject>
             {
-              <foreignObject x="100" y="300" width="100%" height="100%">
+              <foreignObject x="40" y="300" width="100%" height="100%">
                 {
                   links.map((item, index) => {
                     return (
                       <div key={index}>
                       <PreviewButton
+                      color={getColorType[index]}
                       imageUrl={getType[index]}
                         type={item.type}
                         input={item.url}
