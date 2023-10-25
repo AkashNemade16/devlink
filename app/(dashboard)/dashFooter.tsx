@@ -24,8 +24,8 @@ const DashFooter = () => {
     }
   };
   return (
-    <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2">
-      <div className="mt-3 border-lightPurple">
+    <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2 md:items-end">
+      <div className="mt-3 border-lightPurple md:w-[91px]">
         <Button
           text="Save"
           onClick={() => {

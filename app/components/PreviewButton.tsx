@@ -24,7 +24,7 @@ const PreviewButton = ({ type, input, imageUrl, color }: buttonProps) => {
     twitchColor: "bg-twitchColor",
     freeCodeCampColor: "bg-freeCodeCampColor",
   }
-  
+
   return (
     <div className={`flex w-[237px] h-[56px] flex-col rounded-md justify-center items-center ${colorVariants[color as keyof typeof colorVariants]}  mt-3`}>
       <Link className="w-full pr-3 pl-3" href={input || ""}>
