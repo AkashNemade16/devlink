@@ -3,6 +3,41 @@ import { useGlobalContext } from "../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 const Illustrationphone = () => {
   const { email, links} = useGlobalContext();
+  const selectImages = () => {
+    const images = links.map((item) => {
+      switch (item.type) {
+        case "Github":
+          return "/images/icon-github.svg";
+        case "Codewards":
+          return "/images/icon-codewars.svg";
+        case "Stackoverflow":
+          return "/images/icon-stack-overflow.svg";
+        case "FrontendMentor":
+          return "/images/icon-frontend-mentor.svg";
+        case "LinkedIn":
+          return "/images/icon-linkedin.svg";
+        case "Twitter":
+          return "/images/icon-twitter.svg";
+        case "Hashnode":
+          return "/images/icon-hashnode.svg";
+        case "Youtube":
+          return "/images/icon-youtube.svg";
+        case "Facebook":
+          return "/images/icon-facebook.svg";
+        case "Gitlab":
+          return "/images/icon-gitlab.svg";
+        case "Codepen":
+          return "/images/icon-codepen.svg";
+        case "Twitch":
+          return "/images/icon-twitch.svg";
+        default:
+          return "/images/icon-github.svg";
+      }
+    });
+    return images;
+  };
+  const getType = selectImages();
+  console.log("getType", getType);
   return (
     <div>
       <svg
@@ -41,64 +76,21 @@ const Illustrationphone = () => {
               )}
             </foreignObject>
             {
-              // <>
-              //   <rect
-              //     width="237"
-              //     height="44"
-              //     x="35"
-              //     y="278"
-              //     fill="#EEE"
-              //     rx="8"
-              //   />
-              //   <rect
-              //     width="237"
-              //     height="44"
-              //     x="35"
-              //     y="342"
-              //     fill="#EEE"
-              //     rx="8"
-              //   />
-              //   <rect
-              //     width="237"
-              //     height="44"
-              //     x="35"
-              //     y="406"
-              //     fill="#EEE"
-              //     rx="8"
-              //   />
-              //   <rect
-              //     width="237"
-              //     height="44"
-              //     x="35"
-              //     y="470"
-              //     fill="#EEE"
-              //     rx="8"
-              //   />
-              //   <rect
-              //     width="237"
-              //     height="44"
-              //     x="35"
-              //     y="534"
-              //     fill="#EEE"
-              //     rx="8"
-              //   />
-              // </>
               <foreignObject x="100" y="300" width="100%" height="100%">
                 {
                   links.map((item, index) => {
                     return (
                       <div key={index}>
                       <PreviewButton
+                      imageUrl={getType[index]}
                         type={item.type}
                         input={item.url}
                       />
                       </div>
-                      
                     );
                   })
                 }
               </foreignObject>
-              
             }
           </>
         }
