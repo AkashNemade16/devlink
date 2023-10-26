@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     colors: {
+      borders:'#D9D9D9',
       githubColor:"#1A1A1A",
       youtubeColor:"#EE3939",
       twitterColor:"#43B7E9",

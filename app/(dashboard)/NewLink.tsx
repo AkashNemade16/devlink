@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
 
@@ -13,7 +13,15 @@ interface NewLinkProps {
 const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
+  const [error,setError] = useState<string>("")
+  const [isError,setIsError] = useState<boolean>(false)
   const { setLinks} = useGlobalContext();
+  const outerdivRef = useRef<HTMLDivElement>(null);
+  const inputFocus = () =>{
+    if(inputlink === "" || !inputlink.includes(selected.toLowerCase()) && !inputlink.includes(selected)){
+      outerdivRef.current?.classList.add("border-red")
+    }
+  }
   const options = [
     "Github",
     "Codewars",
@@ -46,9 +54,25 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
-  }, [inputlink, selected, setLinks, index]);
+    const checkError = () => {
+      if(inputlink === ""){
+        setError("Please enter a link")
+        setIsError(true)
+      }else if(!inputlink.includes(selected.toLowerCase()) && !inputlink.includes(selected)){
+        setError("Please enter a valid link")
+        setIsError(true)
+      }
+      else{
+        setError("")
+      }
+    }
+    checkError()
+  }, [inputlink, selected, setLinks, index ,error]);
+
+  console.log('error',error)
+
   return (
-    <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey">
+    <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
       <div className="flex flex-row justify-between w-full">
         <div className="flex p-2">
           <Image
@@ -76,7 +100,9 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
           <p className="text-darkgrey text-[12px] font-[400]">Platform</p>
         </div>
         {
-          <select
+          <div className={`flex w-full border-2 border-borders rounded-md`}>
+              <select
+              className="text-darkgrey bg-lightGrey w-full focus:outline-none"
             value={selected || linkTitle}
             onChange={(e) => {
               setSelected(e.target.value);
@@ -89,20 +115,31 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
               </option>
             ))}
           </select>
+          </div>
+        
         }
       </div>
-      <div className="flex mt-5 w-full">
-        <div className="flex items-center mr-2">
-          <Image src={"images/icon-link.svg"} width={20} height={20} alt="" />
-        </div>
+      <div className="flex mt-5 w-full flex-col">
+      <p className="text-darkgrey text-[12px] font-[400]">Link</p>
+        <div ref={outerdivRef} className={`flex flex-col w-full border-2  border-borders rounded-md`}>
         <div className="flex w-full">
+        <div className="flex items-center mr-2">
+          <Image src={"images/icon-link.svg"} width={20} height={20} alt="icon-link" />
+        </div>
+        <div className="flex flex-row w-full">
           <input
+            onFocus={inputFocus}
             value={inputlink || linkUrl}
             onChange={(e) => setInputLink(e.target.value)}
             className="text-darkgrey bg-lightGrey w-full focus:outline-none"
             type="text"
             placeholder="www.github.com"
           />
+          <div className="flex w-full justify-end items-center">
+            {isError?<p className="text-xs text-red p-2">{error}</p>:null}
+          </div>
+        </div>
+        </div>
         </div>
       </div>
     </div>

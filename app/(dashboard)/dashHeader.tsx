@@ -18,7 +18,7 @@ const DashHeader = () => {
                 />
                 <div className="hidden sm:flex">devLinks</div>
             </div>
-            <div className={`flex ${router === "/Homepage" ? "bg-lightPurple" : ""}`}>
+            <div className={`flex ${router === "/Homepage" ? "bg-lightPurple" : ""} rounded-md p-2`}>
                 <Link className="flex" href={"/Homepage"}>
                     <Image
                         src={"images/icon-links-header.svg"}
@@ -29,7 +29,7 @@ const DashHeader = () => {
                     <div className={`${router === "/Homepage" ? "text-purple":''} hidden md:flex`}>Links</div>
                 </Link>
             </div>
-            <div className={`flex ${router === "/Profile" ? "bg-lightPurple":''}`}>
+            <div className={`flex ${router === "/Profile" ? "bg-lightPurple":''} rounded-md p-2`}>
                 <Link className={`flex ${router === "/Profile" ? "fill-purple":''}`} href={"/Profile"}>
                     <Image
                         src={"images/icon-profile-details-header.svg"}
