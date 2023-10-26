@@ -13,13 +13,15 @@ interface NewLinkProps {
 const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks,isError, setIsError} = useGlobalContext();
+  const { setLinks, isError, setIsError } = useGlobalContext();
   const outerdivRef = useRef<HTMLDivElement>(null);
-  const inputFocus = () =>{
-    if(isError){
-      outerdivRef.current?.classList.add("border-red")
+  console.log("iserror", isError);
+  const inputFocus = () => {
+    checkError();
+    if (isError) {
+      outerdivRef.current?.classList.add("border-red");
     }
-  }
+  };
   const options = [
     "Github",
     "Codewars",
@@ -52,24 +54,27 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
-
   }, [inputlink, selected, setLinks, index]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setInputLink(e.target.value);
-  }
+    setInputLink(e.target.value);
+  };
 
   const checkError = () => {
-    const urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
-    if(inputlink === "" || !inputlink.includes(selected.toLowerCase()) && !inputlink.includes(selected)){
-      setIsError(true)
-    }else if( urlRegex.test(inputlink) === false){
-      setIsError(true)
+    const urlRegex =
+      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
+    if (
+      inputlink === "" ||
+      (!inputlink.includes(selected.toLowerCase()) &&
+        !inputlink.includes(selected))
+    ) {
+      setIsError(true);
+    } else if (urlRegex.test(inputlink) === false) {
+      setIsError(true);
+    } else {
+      setIsError(false);
     }
-    else{
-      setIsError(false)
-    }
-  }
+  };
 
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
@@ -101,45 +106,52 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
         </div>
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
-              <select
+            <select
               className="text-darkgrey bg-lightGrey w-full focus:outline-none"
-            value={selected || linkTitle}
-            onChange={(e) => {
-              setSelected(e.target.value);
-            }}
-          >
-            <option value="">{}</option>
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+              value={selected || linkTitle}
+              onChange={(e) => {
+                setSelected(e.target.value);
+              }}
+            >
+              <option value="">{}</option>
+              {options.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
-        
         }
       </div>
       <div className="flex mt-5 w-full flex-col">
-      <p className="text-darkgrey text-[12px] font-[400]">Link</p>
-        <div ref={outerdivRef} className={`flex flex-col w-full border-2  border-borders rounded-md`}>
-        <div className="flex w-full">
-        <div className="flex items-center mr-2">
-          <Image src={"images/icon-link.svg"} width={20} height={20} alt="icon-link" />
-        </div>
-        <div className="flex flex-row w-full">
-          <input
-            onFocus={inputFocus}
-            value={inputlink || linkUrl}
-            onChange={handleChange}
-            className="text-darkgrey bg-lightGrey w-full focus:outline-none"
-            type="text"
-            placeholder="www.github.com"
-          />
-          <div className="flex w-full justify-end items-center">
-            {/* {isError?<p className="text-xs text-red p-2">{error}</p>:null} */}
+        <p className="text-darkgrey text-[12px] font-[400]">Link</p>
+        <div
+          ref={outerdivRef}
+          className={`flex flex-col w-full border-2  border-borders rounded-md`}
+        >
+          <div className="flex w-full">
+            <div className="flex items-center mr-2">
+              <Image
+                src={"images/icon-link.svg"}
+                width={20}
+                height={20}
+                alt="icon-link"
+              />
+            </div>
+            <div className="flex flex-row w-full">
+              <input
+                onFocus={inputFocus}
+                value={inputlink || linkUrl}
+                onChange={handleChange}
+                className="text-darkgrey bg-lightGrey w-full focus:outline-none"
+                type="text"
+                placeholder="www.github.com"
+              />
+              <div className="flex w-full justify-end items-center">
+                {/* {isError?<p className="text-xs text-red p-2">{error}</p>:null} */}
+              </div>
+            </div>
           </div>
-        </div>
-        </div>
         </div>
       </div>
     </div>

@@ -75,7 +75,6 @@ const Illustrationphone = () => {
   }
 
   const getColorType = getColor();
-  console.log(getColorType);
   return (
     <div>
       <svg

@@ -13,15 +13,12 @@ const Homepage = () => {
   useEffect(() => {
     const getUser = async () => {
       const user = await supabase.auth.getUser();
-      console.log("user", user);
       setUserId(user?.data?.user?.id ?? "");
       setEmail(user?.data?.user?.email ?? "");
     };
-
     const getData = async () => {
       const { data, error } = await supabase.from("links").select();
       if (error) throw error;
-      console.log(data, "getData");
       const destructuredData = data.map((item) => {
         setId(item.id);
         return item.devlinkdata;
@@ -31,7 +28,6 @@ const Homepage = () => {
       }else{
         setLinks([]);
       }
-    
     };
     getUser();
     getData();
@@ -44,9 +40,8 @@ const Homepage = () => {
           url: "",
         },
       ]);
-    
   };
-
+  
   const deleteLink = (i: number) => {
     let copytask = [...links];
     copytask.splice(i, 1);
@@ -85,7 +80,6 @@ const Homepage = () => {
         <div>
             <div>
               {links?.map((item, index: number) => {
-                console.log(item);
                 return (
                   <div key={index}>
                     {item && (
