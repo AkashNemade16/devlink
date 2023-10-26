@@ -26,13 +26,17 @@ const Homepage = () => {
         setId(item.id);
         return item.devlinkdata;
       });
-      setLinks(destructuredData[0]);
+      if(destructuredData.length>0){
+        setLinks(destructuredData[0]);
+      }else{
+        setLinks([]);
+      }
+    
     };
     getUser();
     getData();
   }, [setId, setLinks, setUserId, setEmail]);
   const addNewLink = () => {
-    if (userId) {
       setLinks([
         ...links,
         {
@@ -40,7 +44,7 @@ const Homepage = () => {
           url: "",
         },
       ]);
-    }
+    
   };
 
   const deleteLink = (i: number) => {
@@ -73,15 +77,14 @@ const Homepage = () => {
             disabled={false}
           />
         </div>
-        {links.length === 0 && (
+        {links?.length === 0 && (
           <div>
             <IllustrationEmpty />
           </div>
         )}
         <div>
-          {links && (
             <div>
-              {links.map((item, index: number) => {
+              {links?.map((item, index: number) => {
                 console.log(item);
                 return (
                   <div key={index}>
@@ -97,7 +100,7 @@ const Homepage = () => {
                 );
               })}
             </div>
-          )}
+
         </div>
       </div>
     </div>

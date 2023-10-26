@@ -15,6 +15,7 @@ export const GlobalContextProvider = ({
   const [userId, setUserId] = useState<string>("");
   const [id, setId] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
 
   return (
     <GlobalContext.Provider
@@ -27,6 +28,8 @@ export const GlobalContextProvider = ({
         setId,
         email,
         setEmail,
+        isError,
+        setIsError,
       }}
     >
       {children}
@@ -43,6 +46,8 @@ interface ContextProps {
   setUserId: Dispatch<SetStateAction<string>>;
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
+  isError: boolean;
+  setIsError: Dispatch<SetStateAction<boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -54,6 +59,8 @@ const GlobalContext = createContext<ContextProps>({
   setLinks: (): [] => [],
   email: "",
   setEmail: (): string => "",
+  isError: false,
+  setIsError: (): boolean => false,
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

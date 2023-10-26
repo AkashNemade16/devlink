@@ -4,7 +4,7 @@ import PreviewButton from "@/app/components/PreviewButton";
 const Illustrationphone = () => {
   const { email, links} = useGlobalContext();
   const selectImages = () => {
-    const images = links.map((item) => {
+    const images = links?.map((item) => {
       switch (item.type) {
         case "Github":
           return "/images/icon-github.svg";
@@ -39,7 +39,7 @@ const Illustrationphone = () => {
   const getType = selectImages();
 
   const getColor = () => {  
-    const color = links.map((item) => {
+    const color = links?.map((item) => {
       switch (item.type) {
         case "Github":
           return "githubColor";
@@ -116,7 +116,7 @@ const Illustrationphone = () => {
             {
               <foreignObject x="40" y="300" width="100%" height="100%">
                 {
-                  links.map((item, index) => {
+                  links?.map((item, index) => {
                     return (
                       <div key={index}>
                       <PreviewButton

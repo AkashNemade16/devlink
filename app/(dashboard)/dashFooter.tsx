@@ -31,9 +31,9 @@ const DashFooter = () => {
           onClick={() => {
             handleSubmit()
           }}
-          color={`${links.length===0?"bg-purple opacity-50":"bg-purple"}`}
+          color={`${links?.length===0?"bg-purple opacity-50":"bg-purple"}`}
           textColor="text-white"
-          disabled={links.length===0?true:false}
+          disabled={links?.length===0?true:false}
         />
       </div>
     </div>
