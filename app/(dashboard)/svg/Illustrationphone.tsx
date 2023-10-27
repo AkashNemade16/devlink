@@ -1,42 +1,12 @@
 import React from "react";
 import { useGlobalContext } from "../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
+import { selectImages } from "@/common/getImages";
 const Illustrationphone = () => {
   const { email, links} = useGlobalContext();
-  const selectImages = () => {
-    const images = links?.map((item) => {
-      switch (item.type) {
-        case "Github":
-          return "/images/icon-github.svg";
-        case "Codewars":
-          return "/images/icon-codewars.svg";
-        case "Stackoverflow":
-          return "/images/icon-stack-overflow.svg";
-        case "FrontendMentor":
-          return "/images/icon-frontend-mentor.svg";
-        case "LinkedIn":
-          return "/images/icon-linkedin.svg";
-        case "Twitter":
-          return "/images/icon-twitter.svg";
-        case "Hashnode":
-          return "/images/icon-hashnode.svg";
-        case "Youtube":
-          return "/images/icon-youtube.svg";
-        case "Facebook":
-          return "/images/icon-facebook.svg";
-        case "Gitlab":
-          return "/images/icon-gitlab.svg";
-        case "Codepen":
-          return "/images/icon-codepen.svg";
-        case "Twitch":
-          return "/images/icon-twitch.svg";
-        default:
-          return "/images/icon-github.svg";
-      }
-    });
-    return images;
-  };
-  const getType = selectImages();
+
+  const getType = selectImages(links);
+  console.log('getType',getType)
 
   const getColor = () => {  
     const color = links?.map((item) => {
@@ -119,8 +89,8 @@ const Illustrationphone = () => {
                     return (
                       <div key={index}>
                       <PreviewButton
-                      color={getColorType[index]}
-                      imageUrl={getType[index]}
+                        color={getColorType[index]}
+                        imageUrl={getType[index]}
                         type={item.type}
                         input={item.url}
                       />

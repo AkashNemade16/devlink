@@ -8,20 +8,14 @@ interface NewLinkProps {
   index: number;
   linkTitle: string;
   linkUrl: string;
+  linkError: string;
 }
 
-const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
+const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks, isError, setIsError } = useGlobalContext();
-  const outerdivRef = useRef<HTMLDivElement>(null);
-  console.log("iserror", isError);
-  const inputFocus = () => {
-    checkError();
-    if (isError) {
-      outerdivRef.current?.classList.add("border-red");
-    }
-  };
+  const { setLinks, setInput, setType, icons } = useGlobalContext();
+  
   const options = [
     "Github",
     "Codewars",
@@ -58,23 +52,9 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputLink(e.target.value);
+    setInput(e.target.value)
   };
 
-  const checkError = () => {
-    const urlRegex =
-      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
-    if (
-      inputlink === "" ||
-      (!inputlink.includes(selected.toLowerCase()) &&
-        !inputlink.includes(selected))
-    ) {
-      setIsError(true);
-    } else if (urlRegex.test(inputlink) === false) {
-      setIsError(true);
-    } else {
-      setIsError(false);
-    }
-  };
 
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
@@ -111,6 +91,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
               value={selected || linkTitle}
               onChange={(e) => {
                 setSelected(e.target.value);
+                setType(e.target.value)
               }}
             >
               <option value="">{}</option>
@@ -126,8 +107,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
       <div className="flex mt-5 w-full flex-col">
         <p className="text-darkgrey text-[12px] font-[400]">Link</p>
         <div
-          ref={outerdivRef}
-          className={`flex flex-col w-full border-2  border-borders rounded-md`}
+          className={`flex flex-col w-full border-2 ${linkError?'border-red':''}  border-borders rounded-md`}
         >
           <div className="flex w-full">
             <div className="flex items-center mr-2">
@@ -140,10 +120,9 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
             </div>
             <div className="flex flex-row w-full">
               <input
-                onFocus={inputFocus}
                 value={inputlink || linkUrl}
                 onChange={handleChange}
-                className="text-darkgrey bg-lightGrey w-full focus:outline-none"
+                className="text-darkgrey bg-lightGrey focus:outline-none w-full"
                 type="text"
                 placeholder="www.github.com"
               />

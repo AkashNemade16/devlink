@@ -7,7 +7,7 @@ import IllustrationEmpty from "../IllustrationEmpty";
 import { useGlobalContext } from "../(context)/store";
 import supabase from "@/utils/supabaseClient";
 const Homepage = () => {
-  const { links, setLinks, setId, userId, setUserId, setEmail } =
+  const { links, setLinks, setId, setUserId, setEmail } =
     useGlobalContext();
 
   useEffect(() => {
@@ -32,22 +32,24 @@ const Homepage = () => {
     getUser();
     getData();
   }, [setId, setLinks, setUserId, setEmail]);
+
   const addNewLink = () => {
-      setLinks([
-        ...links,
-        {
-          type: "",
-          url: "",
-        },
-      ]);
+    setLinks((prevLinks) => [
+      ...prevLinks,
+      {
+        type: "",
+        url: "",
+        err: "",
+      },
+    ]);
   };
-  
+
   const deleteLink = (i: number) => {
     let copytask = [...links];
     copytask.splice(i, 1);
     setLinks(copytask);
   };
-  console.log("links", links);
+
   return (
     <div className="flex justify-center items-center">
       <div className="hidden md:flex w-[560px]">
@@ -84,6 +86,7 @@ const Homepage = () => {
                   <div key={index}>
                     {item && (
                       <NewLink
+                        linkError={item.err} 
                         linkTitle={item.type}
                         linkUrl={item.url}
                         index={index}

@@ -11,11 +11,14 @@ export const GlobalContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [links, setLinks] = useState<{ type: string; url: string }[]>([]);
+  const [links, setLinks] = useState<{ type: string; url: string; err: string }[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [id, setId] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
-  const [isError, setIsError] = useState<boolean>(false);
+  const [input,setInput] = useState<string>("")
+  const [type,setType] = useState<string>("")
+  const [errorMessage,setErrorMessage] = useState<string>("")
+  const [icons,setIcons] = useState<string[]>([])
 
   return (
     <GlobalContext.Provider
@@ -28,8 +31,14 @@ export const GlobalContextProvider = ({
         setId,
         email,
         setEmail,
-        isError,
-        setIsError,
+        input,
+        setInput,
+        type,
+        setType,
+        errorMessage,
+        setErrorMessage,
+        icons,
+        setIcons
       }}
     >
       {children}
@@ -38,16 +47,22 @@ export const GlobalContextProvider = ({
 };
 
 interface ContextProps {
-  links: { type: string; url: string }[];
+  links: { type: string; url: string; err: string }[];
   id: number;
   setId: Dispatch<SetStateAction<number>>;
-  setLinks: Dispatch<SetStateAction<{ type: string; url: string }[]>>;
+  setLinks: Dispatch<SetStateAction<{ type: string; url: string; err: string }[]>>;
   userId: string;
   setUserId: Dispatch<SetStateAction<string>>;
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
-  isError: boolean;
-  setIsError: Dispatch<SetStateAction<boolean>>;
+  input:string;
+  setInput:Dispatch<SetStateAction<string>>
+  type:string;
+  setType:Dispatch<SetStateAction<string>>
+  errorMessage:string;
+  setErrorMessage:Dispatch<SetStateAction<string>>
+  icons:string[];
+  setIcons:Dispatch<SetStateAction<string[]>>
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -59,8 +74,14 @@ const GlobalContext = createContext<ContextProps>({
   setLinks: (): [] => [],
   email: "",
   setEmail: (): string => "",
-  isError: false,
-  setIsError: (): boolean => false,
+  input:"",
+  setInput:():string=>"",
+  type:"",
+  setType:():string=>"",
+  errorMessage:"",
+  setErrorMessage:():string=>"",
+  icons:[],
+  setIcons:():string[]=>[]
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
