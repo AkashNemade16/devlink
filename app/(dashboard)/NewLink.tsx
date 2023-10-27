@@ -14,7 +14,7 @@ interface NewLinkProps {
 const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks, setInput, setType, icons } = useGlobalContext();
+  const { setLinks, setInput, setType } = useGlobalContext();
   
   const options = [
     "Github",

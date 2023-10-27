@@ -18,7 +18,6 @@ export const GlobalContextProvider = ({
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
   const [errorMessage,setErrorMessage] = useState<string>("")
-  const [icons,setIcons] = useState<string[]>([])
 
   return (
     <GlobalContext.Provider
@@ -37,8 +36,6 @@ export const GlobalContextProvider = ({
         setType,
         errorMessage,
         setErrorMessage,
-        icons,
-        setIcons
       }}
     >
       {children}
@@ -61,8 +58,6 @@ interface ContextProps {
   setType:Dispatch<SetStateAction<string>>
   errorMessage:string;
   setErrorMessage:Dispatch<SetStateAction<string>>
-  icons:string[];
-  setIcons:Dispatch<SetStateAction<string[]>>
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -80,8 +75,6 @@ const GlobalContext = createContext<ContextProps>({
   setType:():string=>"",
   errorMessage:"",
   setErrorMessage:():string=>"",
-  icons:[],
-  setIcons:():string[]=>[]
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

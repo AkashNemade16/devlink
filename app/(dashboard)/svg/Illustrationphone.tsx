@@ -6,7 +6,6 @@ const Illustrationphone = () => {
   const { email, links} = useGlobalContext();
 
   const getType = selectImages(links);
-  console.log('getType',getType)
 
   const getColor = () => {  
     const color = links?.map((item) => {
