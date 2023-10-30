@@ -31,23 +31,23 @@ const DashFooter = () => {
     })
   }
 
-  const handleSubmit =  () => {
-    // try {
-    //     if(links.length>0 && id!==0){
-    //       const {data} = await supabase.from("links").update({
-    //         devlinkdata:links
-    //       }).eq('id',id)
-    //       console.log(data, "handleSubmit");
-    //     }else{
-    //       const { error } = await supabase.from("links").insert({
-    //         devlinkdata:links
-    //       }).select();
-    //       if (error) throw error;
-    //       console.log("handleSubmit");
-    //     }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  const handleSubmit =  async () => {
+    try {
+        if(links.length>0 && id!==0){
+          const {data} = await supabase.from("links").update({
+            devlinkdata:links
+          }).eq('id',id)
+          console.log(data, "handleSubmit");
+        }else{
+          const { error } = await supabase.from("links").insert({
+            devlinkdata:links
+          }).select();
+          if (error) throw error;
+          console.log("handleSubmit");
+        }
+    } catch (error) {
+      console.log(error);
+    }
     validateUrl()
     updateLinks()
   };

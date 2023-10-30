@@ -1,5 +1,5 @@
 export const selectImages = (links:any) => {
-     const images = links.map((link:any) => {
+     const images = Array.isArray(links) ? links.map((link:any) => {
         switch (link.type) {
             case "Github":
               return "/images/icon-github.svg";
@@ -25,9 +25,11 @@ export const selectImages = (links:any) => {
               return "/images/icon-codepen.svg";
             case "Twitch":
               return "/images/icon-twitch.svg";
+            case "Freecodecamp":
+              return "/images/icon-freecodecamp.svg";
             default:
               return "/images/icon-github.svg";
           }
-    });
+    }):null;
     return images;
 }

@@ -34,7 +34,7 @@ const Illustrationphone = () => {
           return "codePenColor";
         case "Twitch":
           return "twitchColor";
-        case "freecodecamp":
+        case "Freecodecamp":
           return "freeCodeCampColor";
         default:
           return "githubColor";
@@ -87,12 +87,12 @@ const Illustrationphone = () => {
                   links?.map((item, index) => {
                     return (
                       <div key={index}>
-                      <PreviewButton
-                        color={getColorType[index]}
-                        imageUrl={getType[index]}
-                        type={item.type}
-                        input={item.url}
-                      />
+                        <PreviewButton
+                          color={getColorType[index]}
+                          imageUrl={getType ? getType[index] : ''}
+                          type={item.type}
+                          input={item.url}
+                        />
                       </div>
                     );
                   })

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
-
+import { selectImages } from "@/common/getImages";
 interface NewLinkProps {
   deleteLink: () => void;
   index: number;
@@ -14,7 +14,7 @@ interface NewLinkProps {
 const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks, setInput, setType } = useGlobalContext();
+  const { setLinks, setInput, setType, links } = useGlobalContext();
   
   const options = [
     "Github",
@@ -29,9 +29,10 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
     "Gitlab",
     "Codepen",
     "Twitch",
-    "freecodecamp",
+    "Freecodecamp",
   ];
-
+  const getType = selectImages(options);
+  console.log(getType, "getType");
   useEffect(() => {
     const updateLinks = () => {
       setLinks((prevLinks) =>
@@ -54,7 +55,6 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
     setInputLink(e.target.value);
     setInput(e.target.value)
   };
-
 
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
@@ -87,7 +87,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
             <select
-              className="text-darkgrey bg-lightGrey w-full focus:outline-none"
+              className="text-darkgrey bg-white w-full focus:outline-none"
               value={selected || linkTitle}
               onChange={(e) => {
                 setSelected(e.target.value);
@@ -97,7 +97,18 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
               <option value="">{}</option>
               {options.map((option, index) => (
                 <option key={index} value={option}>
-                  {option}
+                  <div className="flex flex-row">
+                 <div>{
+                  getType&&<Image
+                  src={getType[index]}
+                  height={20}
+                  width={20}
+                  alt=""
+                 />}</div>
+                 {option}
+
+                 </div>
+                  
                 </option>
               ))}
             </select>
