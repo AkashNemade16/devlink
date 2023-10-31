@@ -18,6 +18,7 @@ export const GlobalContextProvider = ({
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
   const [errorMessage,setErrorMessage] = useState<string>("")
+  const [open,setOpen] = useState<boolean>(false)
 
   return (
     <GlobalContext.Provider

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useGlobalContext } from '../(dashboard)/(context)/store'
 import Image from 'next/image'
 const options = [
@@ -56,12 +56,23 @@ const getImagesDropdown = () => {
 
 const getImagesDropdownHover = getImagesDropdown()
 const Dropdown = ({ selected, setSelected, index }: { index:number, selected: string, setSelected: React.Dispatch<React.SetStateAction<string>> }) => {
-    const { links, type, setType } = useGlobalContext();
-    const [open,setOpen] = useState(false)
+    const { links, setType,  } = useGlobalContext();
+    const [open, setOpen] = useState<boolean>(false)
     const toggle = () => setOpen(!open)
     options.filter((item)=>{
         return item !== selected
     })
+    useEffect(()=>{
+        const handleOutsideClick = (e:MouseEvent) => {
+            if(open){
+                setOpen(false)
+            }
+        }
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        }
+    },[open, setOpen])
     return (
         <div className='flex flex-col w-full'>
             <div className='flex w-full' onClick={toggle}>
