@@ -103,7 +103,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
                 </option>
               ))}
             </select> */}
-            <div>
+            <div className="flex w-full">
             <Dropdown selected = {selected} setSelected = {setSelected} index={index}/>
             </div>
           </div>

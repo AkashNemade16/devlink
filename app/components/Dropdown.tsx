@@ -52,28 +52,32 @@ const getImagesDropdown = () => {
     })
     return images
 }
+
+
 const getImagesDropdownHover = getImagesDropdown()
 const Dropdown = ({ selected, setSelected, index }: { index:number, selected: string, setSelected: React.Dispatch<React.SetStateAction<string>> }) => {
     const { links, type, setType } = useGlobalContext();
     const [open,setOpen] = useState(false)
     const toggle = () => setOpen(!open)
-
+    options.filter((item)=>{
+        return item !== selected
+    })
     return (
         <div className='flex flex-col w-full'>
-            <div className='flex' onClick={toggle}>
+            <div className='flex w-full' onClick={toggle}>
               {
                 links.map((item,i)=>{
                     if(i===index){
                         return (
-                        <div key={i} className='flex flex-row'>
-                            <Image
+                        <div key={i} className='flex flex-row w-full'>
+                           <Image
                                 className='filter invert mr-2 ml-2'
-                                src={item?.imageUrl}
+                                src={item?.imageUrl ||'/images/icon-github.svg'}
                                 alt={item?.type}
                                 width={20}
                                 height={20}
                                 />
-                            {item.type}
+                            <div className='flex w-full'>{item.type}</div>
                         </div>
                         )
                     }
@@ -81,21 +85,21 @@ const Dropdown = ({ selected, setSelected, index }: { index:number, selected: st
               }
             </div>
             {open && (
-                <div className='flex flex-col'>
+                <div className='flex flex-col w-full'>
                     {options.map((option,index) => (
-                        <div className='flex' key={index} onClick={() => {
+                        <div className='flex w-full' key={index} onClick={() => {
                             setType(option)
                             setSelected(option)
                             toggle()
                         }}>
                             <Image
                                 className='filter invert mr-2 ml-2'
-                                src={getImagesDropdownHover[index]}
+                                src={getImagesDropdownHover[index]||''}
                                 alt={option}
                                 width={20}
                                 height={20}
                             />
-                            {option}
+                            {option || "Github"}
                         </div>
                     ))}
                 </div>
