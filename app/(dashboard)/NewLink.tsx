@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
+import Dropdown from "../components/Dropdown";
 import { selectImages } from "@/common/getImages";
 interface NewLinkProps {
   deleteLink: () => void;
@@ -45,8 +46,6 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
       );
     };
 
-
-
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
@@ -88,14 +87,8 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
         </div>
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
-            <Image
-              className="filter invert"
-              src={imageUrl}
-              height={20}
-              width={20}
-              alt="icon-link"
-            />
-            <select
+            
+            {/* <select
               className="text-darkgrey bg-white w-full focus:outline-none"
               value={selected || linkTitle}
               onChange={(e) => {
@@ -109,9 +102,12 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
                   {option}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <div>
+            <Dropdown selected = {selected} setSelected = {setSelected} index={index}/>
+            </div>
           </div>
-          // <Dropdown selected = {selected} setSelected = {setSelected}/>
+          
         }
       </div>
       <div className="flex mt-5 w-full flex-col">
