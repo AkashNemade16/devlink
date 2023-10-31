@@ -40,6 +40,7 @@ const Homepage = () => {
         type: "",
         url: "",
         err: "",
+        imageUrl: "",
       },
     ]);
   };

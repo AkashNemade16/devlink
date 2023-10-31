@@ -10,29 +10,27 @@ interface NewLinkProps {
   linkUrl: string;
   linkError: string;
 }
-
+const options = [
+  "Github",
+  "Codewars",
+  "Stackoverflow",
+  "FrontendMentor",
+  "LinkedIn",
+  "Twitter",
+  "Hashnode",
+  "Youtube",
+  "Facebook",
+  "Gitlab",
+  "Codepen",
+  "Twitch",
+  "Freecodecamp",
+];
 const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const { setLinks, setInput, setType, links } = useGlobalContext();
-  
-  const options = [
-    "Github",
-    "Codewars",
-    "Stackoverflow",
-    "FrontendMentor",
-    "LinkedIn",
-    "Twitter",
-    "Hashnode",
-    "Youtube",
-    "Facebook",
-    "Gitlab",
-    "Codepen",
-    "Twitch",
-    "Freecodecamp",
-  ];
-  const getType = selectImages(options);
-  console.log(getType, "getType");
+  const imageUrls = selectImages(links) || [""];
+  const imageUrl = imageUrls[index] || "";
   useEffect(() => {
     const updateLinks = () => {
       setLinks((prevLinks) =>
@@ -40,22 +38,26 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
           if (index === i) {
             item.type = selected;
             item.url = inputlink;
+            item.imageUrl = imageUrl;
           }
           return item;
         })
       );
     };
 
+
+
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
-  }, [inputlink, selected, setLinks, index]);
+  }, [inputlink, selected, setLinks, index, imageUrl]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputLink(e.target.value);
     setInput(e.target.value)
   };
 
+  console.log('links',links)
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
       <div className="flex flex-row justify-between w-full">
@@ -86,6 +88,13 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
         </div>
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
+            <Image
+              className="filter invert"
+              src={imageUrl}
+              height={20}
+              width={20}
+              alt="icon-link"
+            />
             <select
               className="text-darkgrey bg-white w-full focus:outline-none"
               value={selected || linkTitle}
@@ -97,22 +106,12 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
               <option value="">{}</option>
               {options.map((option, index) => (
                 <option key={index} value={option}>
-                  <div className="flex flex-row">
-                 <div>{
-                  getType&&<Image
-                  src={getType[index]}
-                  height={20}
-                  width={20}
-                  alt=""
-                 />}</div>
-                 {option}
-
-                 </div>
-                  
+                  {option}
                 </option>
               ))}
             </select>
           </div>
+          // <Dropdown selected = {selected} setSelected = {setSelected}/>
         }
       </div>
       <div className="flex mt-5 w-full flex-col">

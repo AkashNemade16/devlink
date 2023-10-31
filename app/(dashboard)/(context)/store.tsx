@@ -11,7 +11,7 @@ export const GlobalContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [links, setLinks] = useState<{ type: string; url: string; err: string }[]>([]);
+  const [links, setLinks] = useState<{ type: string; url: string; err: string; imageUrl:string }[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [id, setId] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
@@ -44,10 +44,10 @@ export const GlobalContextProvider = ({
 };
 
 interface ContextProps {
-  links: { type: string; url: string; err: string }[];
+  links: { type: string; url: string; err: string; imageUrl: string }[];
   id: number;
   setId: Dispatch<SetStateAction<number>>;
-  setLinks: Dispatch<SetStateAction<{ type: string; url: string; err: string }[]>>;
+  setLinks: Dispatch<SetStateAction<{ type: string; url: string; err: string; imageUrl: string }[]>>;
   userId: string;
   setUserId: Dispatch<SetStateAction<string>>;
   email: string;
