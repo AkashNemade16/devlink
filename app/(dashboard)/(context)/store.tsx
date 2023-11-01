@@ -18,7 +18,8 @@ export const GlobalContextProvider = ({
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
   const [errorMessage,setErrorMessage] = useState<string>("")
-  const [open,setOpen] = useState<boolean>(false)
+  const [Error,setError] = useState<Boolean>(false)
+  
 
   return (
     <GlobalContext.Provider
@@ -37,6 +38,8 @@ export const GlobalContextProvider = ({
         setType,
         errorMessage,
         setErrorMessage,
+        Error,
+        setError
       }}
     >
       {children}
@@ -59,6 +62,8 @@ interface ContextProps {
   setType:Dispatch<SetStateAction<string>>
   errorMessage:string;
   setErrorMessage:Dispatch<SetStateAction<string>>
+  Error:Boolean;
+  setError:Dispatch<SetStateAction<Boolean>>
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -76,6 +81,8 @@ const GlobalContext = createContext<ContextProps>({
   setType:():string=>"",
   errorMessage:"",
   setErrorMessage:():string=>"",
+  Error:false,
+  setError:():Boolean=>false
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

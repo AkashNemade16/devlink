@@ -1,35 +1,13 @@
 "use client";
-import React,{useState} from "react";
+import React,{useEffect} from "react";
 import Button from "../components/Button";
 import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const [error,setError] = useState<Boolean>(false)
-  const {links,id, input, type, setErrorMessage, errorMessage} = useGlobalContext();
-  const validateUrl = () => { 
-    if(input===""){
-    setErrorMessage("Please enter a url")
-    }
-    let typeArray = []
-    typeArray.push(type)
-    const validate = input.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/g)
-    const accepted = typeArray.some(item=>input.includes(item.toLowerCase()) || input.includes(item))
-    const res = (validate && accepted) ? true : false
-    console.log('res',res)
-    if(res){
-      setErrorMessage("")
-    }else{
-      setErrorMessage("Please enter a valid url")
-    }
-    setError(!res) 
-  }
+  const {links,id, errorMessage, Error, setLinks} = useGlobalContext();
 
-  const updateLinks = () => { 
-    links.map((item, i) => {
-      item.err = errorMessage;
-    })
-  }
+
 
   const handleSubmit =  async () => {
     try {
@@ -48,10 +26,10 @@ const DashFooter = () => {
     } catch (error) {
       console.log(error);
     }
-    validateUrl()
-    updateLinks()
   };
-  
+  console.log('errorMessage',errorMessage)
+  console.log('error', Error)
+
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2 md:items-end">
       <div className="mt-3 border-lightPurple md:w-[91px]">
@@ -60,9 +38,9 @@ const DashFooter = () => {
           onClick={() => {
             handleSubmit()
           }}
-          color={`${links?.length===0?"bg-purple opacity-50":"bg-purple"}`}
+          color={`${links?.length===0 || (links.length>0 && Error)?"bg-purple opacity-50":"bg-purple"}`}
           textColor="text-white"
-          disabled={links?.length===0?true:false}
+          disabled={links?.length===0 || (links.length>0 && Error)?true:false}
         />
       </div>
     </div>

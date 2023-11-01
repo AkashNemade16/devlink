@@ -26,12 +26,46 @@ const options = [
   "Twitch",
   "Freecodecamp",
 ];
-const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkProps) => {
+const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks, setInput, setType, links } = useGlobalContext();
+  const { setLinks, setInput, setType, links, setError, Error,  } = useGlobalContext();
   const imageUrls = selectImages(links) || [""];
   const imageUrl = imageUrls[index] || "";
+  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputLink(e.target.value);
+    setInput(e.target.value)
+  };
+
+  useEffect(() => {
+    const validate = () => {
+      links.map((item, i) => {
+        if(i === index){
+          if(item.url===""){
+            setErrorMessage("can't be empty")
+            setError(true)
+          }
+          let typeArray = []
+          typeArray.push(item.type)
+          const validate = item.url.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/)
+          const accepted = typeArray.some(input=>item.url.includes(input.toLowerCase()) || item.url.includes(input))
+          const res = (validate && accepted) ? true : false
+          if(res){
+            setErrorMessage("")
+            setError(false)
+          }else{
+            setErrorMessage( "Please check the URL")
+            setError(true)
+          }
+        }
+      })
+    }
+    validate()
+  },[index, links, setError, inputlink, setErrorMessage, Error])
+
   useEffect(() => {
     const updateLinks = () => {
       setLinks((prevLinks) =>
@@ -49,14 +83,11 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
-  }, [inputlink, selected, setLinks, index, imageUrl]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputLink(e.target.value);
-    setInput(e.target.value)
-  };
+  }, [inputlink, selected, setLinks, index, imageUrl, errorMessage, setErrorMessage]);
+  
 
   console.log('links',links)
+  console.log('errorMessage',errorMessage)
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
       <div className="flex flex-row justify-between w-full">
@@ -87,22 +118,6 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
         </div>
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
-            
-            {/* <select
-              className="text-darkgrey bg-white w-full focus:outline-none"
-              value={selected || linkTitle}
-              onChange={(e) => {
-                setSelected(e.target.value);
-                setType(e.target.value)
-              }}
-            >
-              <option value="">{}</option>
-              {options.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select> */}
             <div className="flex w-full">
             <Dropdown selected = {selected} setSelected = {setSelected} index={index}/>
             </div>
@@ -113,7 +128,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl, linkError }: NewLinkPr
       <div className="flex mt-5 w-full flex-col">
         <p className="text-darkgrey text-[12px] font-[400]">Link</p>
         <div
-          className={`flex flex-col w-full border-2 ${linkError?'border-red':''}  border-borders rounded-md`}
+          className={`flex flex-col w-full border-2 ${errorMessage!=='' && Error?'border-red':''}  border-borders rounded-md`}
         >
           <div className="flex w-full">
             <div className="flex items-center mr-2">
