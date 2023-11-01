@@ -44,10 +44,6 @@ const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
     const validate = () => {
       links.map((item, i) => {
         if(i === index){
-          if(item.url===""){
-            setErrorMessage("can't be empty")
-            setError(true)
-          }
           let typeArray = []
           typeArray.push(item.type)
           const validate = item.url.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/)
@@ -56,7 +52,10 @@ const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
           if(res){
             setErrorMessage("")
             setError(false)
-          }else{
+          }else if(item.url===""){
+              setErrorMessage("can't be empty")
+              setError(true)
+          } else{
             setErrorMessage( "Please check the URL")
             setError(true)
           }
@@ -148,7 +147,7 @@ const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
                 placeholder="www.github.com"
               />
               <div className="flex w-full justify-end items-center">
-                {/* {isError?<p className="text-xs text-red p-2">{error}</p>:null} */}
+                {Error?<p className="text-xs text-red p-2">{errorMessage}</p>:null}
               </div>
             </div>
           </div>
