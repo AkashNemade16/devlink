@@ -10,28 +10,28 @@ const Homepage = () => {
   const { links, setLinks, setId, setUserId, setEmail } =
     useGlobalContext();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const user = await supabase.auth.getUser();
-      setUserId(user?.data?.user?.id ?? "");
-      setEmail(user?.data?.user?.email ?? "");
-    };
-    const getData = async () => {
-      const { data, error } = await supabase.from("links").select();
-      if (error) throw error;
-      const destructuredData = data.map((item) => {
-        setId(item.id);
-        return item.devlinkdata;
-      });
-      if(destructuredData.length>0){
-        setLinks(destructuredData[0]);
-      }else{
-        setLinks([]);
-      }
-    };
-    getUser();
-    getData();
-  }, [setId, setLinks, setUserId, setEmail]);
+
+  //   const getUser = async () => {
+  //     const user = await supabase.auth.getUser();
+  //     setUserId(user?.data?.user?.id ?? "");
+  //     setEmail(user?.data?.user?.email ?? "");
+  //   };
+  //   const getData = async () => {
+  //     const { data, error } = await supabase.from("links").select();
+  //     if (error) throw error;
+  //     const destructuredData = data.map((item) => {
+  //       setId(item.id);
+  //       return item.devlinkdata;
+  //     });
+  //     if(destructuredData.length>0){
+  //       setLinks(destructuredData[0]);
+  //     }else{
+  //       setLinks([]);
+  //     }
+  //   };
+  //   getUser();
+  //   getData();
+  // }, [setId, setLinks, setUserId, setEmail]);
 
   const addNewLink = () => {
     setLinks((prevLinks) => [

@@ -1,25 +1,32 @@
 "use client";
-import React,{useEffect} from "react";
+import React,{useState,useEffect, use} from "react";
 import Button from "../components/Button";
 import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const {links,id, errorMessage, Error, setLinks} = useGlobalContext();
-
-
-
+  const {links,id, Error} = useGlobalContext();
+  const [modal,setModal] = useState<Boolean>(false)
+  useEffect(() => {
+    if(modal){
+      setTimeout(() => {
+        setModal(false)
+      }, 3000);
+    }
+  },[modal])
   const handleSubmit =  async () => {
     try {
-        if(links.length>0 && id!==0){
+        if(links.length>0 && id!==undefined){
           const {data} = await supabase.from("links").update({
             devlinkdata:links
           }).eq('id',id)
+          setModal(true)
           console.log(data, "handleSubmit");
         }else{
           const { error } = await supabase.from("links").insert({
             devlinkdata:links
           }).select();
+          setModal(true)
           if (error) throw error;
           console.log("handleSubmit");
         }
@@ -27,11 +34,12 @@ const DashFooter = () => {
       console.log(error);
     }
   };
-  console.log('errorMessage',errorMessage)
-  console.log('error', Error)
 
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2 md:items-end">
+      {modal &&(<div className="flex w-full flex-row justify-center">
+        <p className="text-grey text-[12px] font-[400]">Links saved successfully</p>
+      </div>)}
       <div className="mt-3 border-lightPurple md:w-[91px]">
         <Button
           text="Save"

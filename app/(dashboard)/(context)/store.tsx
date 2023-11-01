@@ -5,7 +5,9 @@ import {
   Dispatch,
   SetStateAction,
   useState,
+  useEffect,
 } from "react";
+import supabase from "@/utils/supabaseClient";
 export const GlobalContextProvider = ({
   children,
 }: {
@@ -17,9 +19,30 @@ export const GlobalContextProvider = ({
   const [email, setEmail] = useState<string>("");
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
-  const [errorMessage,setErrorMessage] = useState<string>("")
   const [Error,setError] = useState<Boolean>(false)
   
+  useEffect(() => {
+    const getUser = async () => {
+          const user = await supabase.auth.getUser();
+          setUserId(user?.data?.user?.id ?? "");
+          setEmail(user?.data?.user?.email ?? "");
+        };
+    const getData = async () => {
+      const { data, error } = await supabase.from("links").select();
+      if (error) throw error;
+      const destructuredData = data.map((item) => {
+        setId(item.id);
+        return item.devlinkdata;
+      });
+      if(destructuredData.length>0){
+        setLinks(destructuredData[0]);
+      }else{
+        setLinks([]);
+      }
+    };
+    getUser();
+    getData();
+  },[])
 
   return (
     <GlobalContext.Provider
@@ -36,8 +59,6 @@ export const GlobalContextProvider = ({
         setInput,
         type,
         setType,
-        errorMessage,
-        setErrorMessage,
         Error,
         setError
       }}
@@ -60,8 +81,6 @@ interface ContextProps {
   setInput:Dispatch<SetStateAction<string>>
   type:string;
   setType:Dispatch<SetStateAction<string>>
-  errorMessage:string;
-  setErrorMessage:Dispatch<SetStateAction<string>>
   Error:Boolean;
   setError:Dispatch<SetStateAction<Boolean>>
 }
@@ -79,8 +98,6 @@ const GlobalContext = createContext<ContextProps>({
   setInput:():string=>"",
   type:"",
   setType:():string=>"",
-  errorMessage:"",
-  setErrorMessage:():string=>"",
   Error:false,
   setError:():Boolean=>false
 });
