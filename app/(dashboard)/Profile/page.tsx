@@ -7,7 +7,7 @@ import ImageUpload from '@/app/components/ImageUpload';
 const Profile = () => {
   const { links } = useGlobalContext();
   return (
-    <div className="flex justify-center items-center bg-lightGrey">
+    <div className="flex justify-center items-center bg-lightGrey w-full">
       <div className="hidden md:flex w-[560px] bg-white m-2">
         <div className="p-8">
           <Illustrationphone />
@@ -21,7 +21,7 @@ const Profile = () => {
         <div className='flex bg-lightGrey mt-1'>
           <div className='flex p-3'>
           <p className='text-grey'>Profile Picture</p>
-          <div className='flex'>
+          <div className='flex w-full'>
             <ImageUpload />
           </div>
           </div>
