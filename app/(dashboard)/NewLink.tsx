@@ -2,41 +2,68 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useGlobalContext } from "./(context)/store";
-
+import Dropdown from "../components/Dropdown";
+import { selectImages } from "@/common/getImages";
 interface NewLinkProps {
   deleteLink: () => void;
   index: number;
   linkTitle: string;
   linkUrl: string;
+  linkError: string;
 }
-
-const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
+const options = [
+  "Github",
+  "Codewars",
+  "Stackoverflow",
+  "FrontendMentor",
+  "LinkedIn",
+  "Twitter",
+  "Hashnode",
+  "Youtube",
+  "Facebook",
+  "Gitlab",
+  "Codepen",
+  "Twitch",
+  "Freecodecamp",
+];
+const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
   const [inputlink, setInputLink] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { setLinks, isError, setIsError } = useGlobalContext();
-  const outerdivRef = useRef<HTMLDivElement>(null);
-  console.log("iserror", isError);
-  const inputFocus = () => {
-    checkError();
-    if (isError) {
-      outerdivRef.current?.classList.add("border-red");
-    }
+  const { setLinks, setInput, setType, links, setError, Error,  } = useGlobalContext();
+  const imageUrls = selectImages(links) || [""];
+  const imageUrl = imageUrls[index] || "";
+  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputLink(e.target.value);
+    setInput(e.target.value)
   };
-  const options = [
-    "Github",
-    "Codewars",
-    "Stackoverflow",
-    "FrontendMentor",
-    "LinkedIn",
-    "Twitter",
-    "Hashnode",
-    "Youtube",
-    "Facebook",
-    "Gitlab",
-    "Codepen",
-    "Twitch",
-    "freecodecamp",
-  ];
+
+  useEffect(() => {
+    const validate = () => {
+      links.map((item, i) => {
+        if(i === index){
+          let typeArray = []
+          typeArray.push(item.type)
+          const validate = item.url.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#()?&//=]*)/)
+          const accepted = typeArray.some(input=>item.url.includes(input.toLowerCase()) || item.url.includes(input))
+          const res = (validate && accepted) ? true : false
+          if(res){
+            setErrorMessage("")
+            setError(false)
+          }else if(item.url===""){
+              setErrorMessage("can't be empty")
+              setError(true)
+          } else{
+            setErrorMessage( "Please check the URL")
+            setError(true)
+          }
+        }
+      })
+    }
+    validate()
+  },[index, links, setError, inputlink, setErrorMessage, Error])
 
   useEffect(() => {
     const updateLinks = () => {
@@ -45,6 +72,7 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
           if (index === i) {
             item.type = selected;
             item.url = inputlink;
+            item.imageUrl = imageUrl;
           }
           return item;
         })
@@ -54,28 +82,11 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
     if (inputlink !== "" || selected !== "") {
       updateLinks();
     }
-  }, [inputlink, selected, setLinks, index]);
+  }, [inputlink, selected, setLinks, index, imageUrl, errorMessage, setErrorMessage]);
+  
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputLink(e.target.value);
-  };
-
-  const checkError = () => {
-    const urlRegex =
-      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
-    if (
-      inputlink === "" ||
-      (!inputlink.includes(selected.toLowerCase()) &&
-        !inputlink.includes(selected))
-    ) {
-      setIsError(true);
-    } else if (urlRegex.test(inputlink) === false) {
-      setIsError(true);
-    } else {
-      setIsError(false);
-    }
-  };
-
+  console.log('links',links)
+  console.log('errorMessage',errorMessage)
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
       <div className="flex flex-row justify-between w-full">
@@ -106,28 +117,17 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
         </div>
         {
           <div className={`flex w-full border-2 border-borders rounded-md`}>
-            <select
-              className="text-darkgrey bg-lightGrey w-full focus:outline-none"
-              value={selected || linkTitle}
-              onChange={(e) => {
-                setSelected(e.target.value);
-              }}
-            >
-              <option value="">{}</option>
-              {options.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            <div className="flex w-full">
+            <Dropdown selected = {selected} setSelected = {setSelected} index={index}/>
+            </div>
           </div>
+          
         }
       </div>
       <div className="flex mt-5 w-full flex-col">
         <p className="text-darkgrey text-[12px] font-[400]">Link</p>
         <div
-          ref={outerdivRef}
-          className={`flex flex-col w-full border-2  border-borders rounded-md`}
+          className={`flex flex-col w-full border-2 ${errorMessage!=='' && Error?'border-red':''}  border-borders rounded-md`}
         >
           <div className="flex w-full">
             <div className="flex items-center mr-2">
@@ -140,15 +140,14 @@ const NewLink = ({ deleteLink, index, linkTitle, linkUrl }: NewLinkProps) => {
             </div>
             <div className="flex flex-row w-full">
               <input
-                onFocus={inputFocus}
                 value={inputlink || linkUrl}
                 onChange={handleChange}
-                className="text-darkgrey bg-lightGrey w-full focus:outline-none"
+                className="text-darkgrey bg-lightGrey focus:outline-none w-full"
                 type="text"
                 placeholder="www.github.com"
               />
               <div className="flex w-full justify-end items-center">
-                {/* {isError?<p className="text-xs text-red p-2">{error}</p>:null} */}
+                {Error?<p className="text-xs text-red p-2">{errorMessage}</p>:null}
               </div>
             </div>
           </div>
