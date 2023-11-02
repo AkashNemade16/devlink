@@ -84,9 +84,6 @@ const NewLink = ({ deleteLink, index, linkUrl, linkError }: NewLinkProps) => {
     }
   }, [inputlink, selected, setLinks, index, imageUrl, errorMessage, setErrorMessage]);
   
-
-  console.log('links',links)
-  console.log('errorMessage',errorMessage)
   return (
     <div className="flex flex-col bg-lightGrey w-full border-2 rounded-md border-lightGrey mt-4">
       <div className="flex flex-row justify-between w-full">
