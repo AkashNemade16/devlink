@@ -5,7 +5,7 @@ import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "./(context)/store";
 
 const DashFooter = () => {
-  const {links,id, Error} = useGlobalContext();
+  const {links,id, Error, firstName, lastName} = useGlobalContext();
   const [modal,setModal] = useState<Boolean>(false)
   useEffect(() => {
     if(modal){
@@ -18,7 +18,11 @@ const DashFooter = () => {
     try {
         if(links.length>0 && id!==undefined){
           const {data} = await supabase.from("links").update({
-            devlinkdata:links
+            devlinkdata:{
+              firstName:firstName,
+              lastName:lastName,
+              link:links
+            }
           }).eq('id',id)
           setModal(true)
           console.log(data, "handleSubmit");

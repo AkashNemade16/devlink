@@ -21,6 +21,8 @@ export const GlobalContextProvider = ({
   const [type,setType] = useState<string>("")
   const [Error,setError] = useState<Boolean>(false)
   const [usersession,setUserSession] = useState<any>([])
+  const [lastName,setLastName] = useState<string>("")
+  const [firstName,setFirstName] = useState<string>("")
   
   useEffect(() => {
     const getSession = async () => {
@@ -38,7 +40,7 @@ export const GlobalContextProvider = ({
       if (error) throw error;
       const destructuredData = data.map((item) => {
         setId(item.id);
-        return item.devlinkdata;
+        return item.devlinkdata?.link;
       });
       if(destructuredData.length>0){
         setLinks(destructuredData[0]);
@@ -69,7 +71,11 @@ export const GlobalContextProvider = ({
         Error,
         setError,
         usersession,
-        setUserSession
+        setUserSession,
+        lastName,
+        setLastName,
+        firstName,
+        setFirstName
       }}
     >
       {children}
@@ -93,7 +99,11 @@ interface ContextProps {
   Error:Boolean;
   setError:Dispatch<SetStateAction<Boolean>>
   usersession:any;
-  setUserSession:Dispatch<SetStateAction<any>>
+  setUserSession:Dispatch<SetStateAction<any>>;
+  lastName:string;
+  setLastName:Dispatch<SetStateAction<string>>;
+  firstName:string;
+  setFirstName:Dispatch<SetStateAction<string>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -112,7 +122,11 @@ const GlobalContext = createContext<ContextProps>({
   Error:false,
   setError:():Boolean=>false,
   usersession:[],
-  setUserSession:():any=>{}
+  setUserSession:():any=>{},
+  lastName:"",
+  setLastName:():string=>"",
+  firstName:"",
+  setFirstName:():string=>"",
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

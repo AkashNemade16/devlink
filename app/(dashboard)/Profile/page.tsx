@@ -9,7 +9,7 @@ const Profile = () => {
   const { links } = useGlobalContext();
   return (
     
-<div className="flex justify-center items-center bg-lightGrey m-4">
+<div className="flex justify-center items-center bg-lightGrey m-4 w-full">
       <div className="hidden md:flex w-[560px] bg-white">
         <div className="p-8">
           <Illustrationphone />
