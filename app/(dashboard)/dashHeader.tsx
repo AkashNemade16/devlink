@@ -40,8 +40,8 @@ const DashHeader = () => {
                     <div className={`${router === "/Profile" ? "text-purple":''} hidden md:flex`}>profile details</div>
                 </Link>
             </div>
-            <div className="flex border-2 border-purple rounded-md">
-                <button className="flex">
+            <div className="flex border-2 border-purple rounded-md p-2">
+                <Link href={'/Preview'} className="flex">
                     <Image
                         className="md:hidden m-1"
                         src={"images/icon-preview-header.svg"}
@@ -50,7 +50,7 @@ const DashHeader = () => {
                         alt="icon"
                     />
                     <div className="hidden md:flex text-purple">preview</div>
-                </button>
+                </Link>
             </div>
         </div>
     );
