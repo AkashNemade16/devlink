@@ -20,8 +20,14 @@ export const GlobalContextProvider = ({
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
   const [Error,setError] = useState<Boolean>(false)
+  const [usersession,setUserSession] = useState<any>([])
   
   useEffect(() => {
+    const getSession = async () => {
+      const {data,error } = await supabase.auth.getSession();
+      console.log(data, "getSession");
+      setUserSession(data)
+    }
     const getUser = async () => {
           const user = await supabase.auth.getUser();
           setUserId(user?.data?.user?.id ?? "");
@@ -42,6 +48,7 @@ export const GlobalContextProvider = ({
     };
     getUser();
     getData();
+    getSession();
   },[])
 
   return (
@@ -60,7 +67,9 @@ export const GlobalContextProvider = ({
         type,
         setType,
         Error,
-        setError
+        setError,
+        usersession,
+        setUserSession
       }}
     >
       {children}
@@ -83,6 +92,8 @@ interface ContextProps {
   setType:Dispatch<SetStateAction<string>>
   Error:Boolean;
   setError:Dispatch<SetStateAction<Boolean>>
+  usersession:any;
+  setUserSession:Dispatch<SetStateAction<any>>
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -99,7 +110,9 @@ const GlobalContext = createContext<ContextProps>({
   type:"",
   setType:():string=>"",
   Error:false,
-  setError:():Boolean=>false
+  setError:():Boolean=>false,
+  usersession:[],
+  setUserSession:():any=>{}
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
