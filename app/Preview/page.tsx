@@ -9,12 +9,12 @@ const Preview = () => {
       <div className='flex w-full bg-white h-[70px]'>
         <div className='flex flex-row w-full justify-between mt-2 mb-2'>
         <div className="flex w-full items-center justify-center border-2 border-purple rounded-md p-3 mr-1">
-                <Link href={'/Preview'}>
+                <Link href={'/Profile'}>
                     <div className="flex text-purple">Back to Editor</div>
                 </Link>
             </div>
             <div className="flex items-center justify-center border-2 border-purple bg-purple rounded-md p-3 w-full ml-1">
-                <Link href={'/Preview'} className="flex">
+                <Link href={'/'} className="flex">
                     <div className="text-white">Share Link</div>
                 </Link>
             </div>

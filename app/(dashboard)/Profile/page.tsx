@@ -6,7 +6,6 @@ import ImageUpload from '@/app/components/ImageUpload';
 import Form from '@/app/components/Form';
 
 const Profile = () => {
-  const { links } = useGlobalContext();
   return (
     
 <div className="flex justify-center items-center bg-lightGrey m-4 w-full">
