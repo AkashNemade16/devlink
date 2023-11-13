@@ -64,13 +64,22 @@ import Image from 'next/image';
 
 function ImageUpload() {
   const [images, setImages] = useState<any>([]);
-  const {userId } = useGlobalContext();
+  const {userId, setUserProfile, userProfile } = useGlobalContext();
+
 
   const onChange = (imageList: any) => {
     setImages(imageList);
-    localStorage.setItem('dataUrl', imageList[0]?.data_url)
   }
-  
+  useEffect(() => {
+    const getUploadedImage =  () => {
+        if (images.length > 0) {
+            const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
+            console.log(publicUrl,'publicUrl')
+            setUserProfile(publicUrl);
+        }
+    };
+    getUploadedImage();
+  },[images, setUserProfile, userId])
   const onUpload = async() => {
     if (images.length > 0) {
       const { data, error } = await supabase.storage
@@ -80,8 +89,8 @@ function ImageUpload() {
       if (error) throw error;
     }
   }
-  const saved = localStorage.getItem('dataUrl');
-  console.log(saved, "saved")
+  console.log(userProfile, "getUploadedImage");
+
   console.log(images, "images")
   return (
     <ImageUploading
@@ -94,7 +103,7 @@ function ImageUpload() {
           <button onClick={onImageUpload}>
             Upload Image
           </button>
-          <Image src={saved||''} width={50} height={50} alt={"storage"} />
+          <Image src={imageList[0]?.data_url} width={50} height={50} alt={"storage"} />
           <button onClick={onUpload}>
             Save
           </button>

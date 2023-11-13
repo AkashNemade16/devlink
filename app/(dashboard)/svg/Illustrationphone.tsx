@@ -2,9 +2,10 @@ import React from "react";
 import { useGlobalContext } from "../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
+import Image from "next/image";
 const Illustrationphone = () => {
-  const { email, links} = useGlobalContext();
-
+  const { email, links ,userProfile} = useGlobalContext();
+  console.log(userProfile,'svg')
   const getType = selectImages(links);
 
   const getColor = () => {  
@@ -44,6 +45,7 @@ const Illustrationphone = () => {
   }
 
   const getColorType = getColor();
+  console.log(userProfile,'svg')
   return (
     <div>
       <svg
@@ -64,9 +66,17 @@ const Illustrationphone = () => {
         />
         {
           <>
-            <circle cx="153.5" cy="112" r="48" fill="#EEE" />
+            <foreignObject x='110' y='70' width="50%" height="25%">
+             {userProfile!==""?(
+              <div className="rounded-full overflow-hidden w-[96px] h-[96px]">
+              <Image className="rounded-full" src={`${userProfile}`} alt="" width={'100'} height={'100'}/>
+              </div>
+             ):(
+             <circle cx="153.5" cy="112" r="48" fill="#EEE"/>
+              )}
+             
+            </foreignObject>
             <rect width="160" height="16" x="73.5" y="185" fill="#EEE" rx="8" />
-
             <foreignObject x="70" y="200" width="100%" height="100%">
               {email ? (
                 <p className="text-grey">{email}</p>
