@@ -101,14 +101,18 @@ function ImageUpload() {
       dataURLKey="data_url" 
     >
       {({ imageList, onImageUpload }) => (
-        <div>
-          <button onClick={onImageUpload}>
-            Upload Image
-          </button>
-          <Image src={imageList[0]?.data_url} width={50} height={50} alt={"storage"} />
-          <button onClick={onUpload}>
-            Save
-          </button>
+        <div className='flex items-center justify-center bg-lightPurple'>
+          {imageList[0]?.data_url?<Image src={imageList[0]?.data_url} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
+            <button onClick={onImageUpload} className='flex justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]'>
+            <Image
+              src={'/images/icon-upload-image.svg'}
+              width={50}
+              height={50}
+              alt={"upload"}
+            />
+            <p className='text-purple'>+ Upload Image</p>
+            </button>
+            </div>}
         </div>
       )}
     </ImageUploading>

@@ -29,6 +29,7 @@ const config: Config = {
       grey: "#737373",
       border: "#D9D9D9",
       lightGrey: "#FAFAFA",
+      svgLightGrey:"#EEE",
       greyShade:"	#dadada",
       red: "#FF3939",
       white:"#FFFFFF",

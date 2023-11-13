@@ -19,13 +19,13 @@ const Profile = () => {
             <p className='text-grey text-sm'>Add your details to create a personal touch to your profile.</p>
         </div>
         <div className='flex bg-lightGrey flex-col md:flex-row w-full mt-1'>
-          <div className='flex flex-col w-full p-3'>
-          <p className='text-grey'>Profile Picture</p>
+          <div className='flex flex-col md:flex-row w-full p-3 justify-between'>
+          <p className='text-grey w-full'>Profile Picture</p>
           <div className='flex w-full'>
             <ImageUpload />
           </div>
           <div className='flex items-center justify-center'>
-            <p className='text-grey text-sm'>Image must be below 1024x1024px. Use PNG or JPG format.</p>
+            <p className='text-grey text-sm w-full p-2'>Image must be below 1024x1024px. Use PNG or JPG format.</p>
           </div>
           </div>
         </div>
