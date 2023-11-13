@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useGlobalContext } from "../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
@@ -7,7 +7,9 @@ const Illustrationphone = () => {
   const { email, links ,userProfile} = useGlobalContext();
   console.log(userProfile,'svg')
   const getType = selectImages(links);
-
+  useEffect(()=>{
+    userProfile
+  },[userProfile])
   const getColor = () => {  
     const color = links?.map((item) => {
       switch (item.type) {

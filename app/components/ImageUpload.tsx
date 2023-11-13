@@ -64,6 +64,7 @@ import Image from 'next/image';
 
 function ImageUpload() {
   const [images, setImages] = useState<any>([]);
+  const [uploaded,setUploaded] = useState<Boolean>(false);
   const {userId, setUserProfile, userProfile } = useGlobalContext();
 
 
@@ -75,17 +76,21 @@ function ImageUpload() {
         if (images.length > 0) {
             const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
             console.log(publicUrl,'publicUrl')
+            setUploaded(false);
             setUserProfile(publicUrl);
         }
     };
-    getUploadedImage();
-  },[images, setUserProfile, userId])
+    if(uploaded){
+      getUploadedImage();
+    }
+  },[images, setUserProfile, uploaded, userId])
   const onUpload = async() => {
     if (images.length > 0) {
       const { data, error } = await supabase.storage
         .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
                     upsert: true,
                   })
+                  setUploaded(true);
       if (error) throw error;
     }
   }
