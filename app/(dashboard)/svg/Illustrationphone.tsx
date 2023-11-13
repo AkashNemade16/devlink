@@ -4,12 +4,8 @@ import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
 import Image from "next/image";
 const Illustrationphone = () => {
-  const { email, links ,userProfile} = useGlobalContext();
-  console.log(userProfile,'svg')
+  const { email, links ,userProfile, firstName, lastName} = useGlobalContext();
   const getType = selectImages(links);
-  useEffect(()=>{
-    userProfile
-  },[userProfile])
   const getColor = () => {  
     const color = links?.map((item) => {
       switch (item.type) {
@@ -45,9 +41,8 @@ const Illustrationphone = () => {
     });
     return color;
   }
-
   const getColorType = getColor();
-  console.log(userProfile,'svg')
+  console.log(firstName,lastName,'svg')
   return (
     <div>
       <svg

@@ -1,7 +1,6 @@
 'use client';
 import React from 'react'
 import Illustrationphone from '../svg/Illustrationphone';
-import { useGlobalContext } from "../(context)/store";
 import ImageUpload from '@/app/components/ImageUpload';
 import Form from '@/app/components/Form';
 

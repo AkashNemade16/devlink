@@ -75,7 +75,6 @@ function ImageUpload() {
     const getUploadedImage =  () => {
         if (images.length > 0) {
             const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
-            console.log(publicUrl,'publicUrl')
             setUploaded(false);
             setUserProfile(publicUrl);
         }
@@ -94,9 +93,7 @@ function ImageUpload() {
       if (error) throw error;
     }
   }
-  console.log(userProfile, "getUploadedImage");
 
-  console.log(images, "images")
   return (
     <ImageUploading
       value={images}

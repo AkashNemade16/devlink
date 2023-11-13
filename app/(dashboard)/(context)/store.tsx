@@ -28,7 +28,6 @@ export const GlobalContextProvider = ({
   useEffect(() => {
     const getSession = async () => {
       const {data,error } = await supabase.auth.getSession();
-      console.log(data, "getSession");
       setUserSession(data)
     }
     const getUser = async () => {
@@ -38,7 +37,12 @@ export const GlobalContextProvider = ({
         };
     const getData = async () => {
       const { data, error } = await supabase.from("links").select();
+      console.log(data, "getData");
       if (error) throw error;
+      data.map((item) => {
+        setLastName(item.devlinkdata?.lastName);
+        setFirstName(item.devlinkdata?.firstName);
+      });
       const destructuredData = data.map((item) => {
         setId(item.id);
         return item.devlinkdata?.link;
@@ -137,3 +141,5 @@ const GlobalContext = createContext<ContextProps>({
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
+
+
