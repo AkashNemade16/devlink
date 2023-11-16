@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useGlobalContext } from "../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
@@ -6,6 +6,8 @@ import Image from "next/image";
 const Illustrationphone = () => {
   const { email, links ,userProfile, firstName, lastName} = useGlobalContext();
   const getType = selectImages(links);
+  const imageUrl = localStorage.getItem('publicUrl');
+  console.log(imageUrl,'imageUrl')
   const getColor = () => {  
     const color = links?.map((item) => {
       switch (item.type) {
@@ -42,8 +44,6 @@ const Illustrationphone = () => {
     return color;
   }
   const getColorType = getColor();
-  console.log(firstName,lastName,'svg')
-  console.log(userProfile,'userProfile')
   return (
     <div>
       <svg
@@ -65,9 +65,9 @@ const Illustrationphone = () => {
         {
           <>
             <foreignObject x='110' y='70' width="50%" height="25%">
-             {userProfile!==''?
+             {imageUrl?
               <div className="rounded-full overflow-hidden w-[96px] h-[96px]">
-              <Image className="rounded-full" src={`${userProfile}`} alt="" width={'100'} height={'100'}/>
+              <Image className="rounded-full" src={imageUrl||''} alt="" width={'100'} height={'100'}/>
               </div>
              :
             <div className="rounded-full w-[96px] h-[96px] bg-svgLightGrey">
@@ -76,7 +76,7 @@ const Illustrationphone = () => {
             </foreignObject>
         
             <foreignObject x="80" y="185" width="100%" height="100%">
-            {/* <rect width="160" height="16" x="73.5" y="185" fill="#EEE" rx="8" /> */
+            {
              firstName?<div className="flex ml-4">
                 <p className="flex">{firstName} {lastName}</p>
              </div> : 

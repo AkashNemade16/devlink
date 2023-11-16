@@ -1,99 +1,65 @@
-// import React, { useState, useEffect } from "react";
-// import Image from "next/image";
-// import supabase from "@/utils/supabaseClient";
-// import ImageUploading from 'react-images-uploading';
-// import { useGlobalContext } from "../(dashboard)/(context)/store";
-// const ImageUpload = () => {
-//   const [image, setImage] = useState<string | undefined>();
-//   const maxNumber = 1;
-//   const [storage, setStorage] = useState<any>([]);
-//   const { userId, usersession } = useGlobalContext();
-//     useEffect(() => {
-//         const getUploadedImage =  () => {
-//             if (image!==undefined) {
-//                 const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${usersession?.session?.user?.id}/${image}`);
-//                 console.log(publicUrl, "getUploadedImage");
-//                 setStorage(publicUrl);
-//             }
-//     };
-//     getUploadedImage();
-// }, [image, userId, usersession]);
-
-//   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const file = e.target.files?.[0];
-//     if (file) {
-//       const fileExt = file.name.split(".").pop();
-//       const fileName = `${Math.random()}.${fileExt}`;
-//       const { data, error } = await supabase.storage
-//         .from("UserProfiles")
-//         .upload(`${userId}/${fileName}`, file, {
-//           upsert: true,
-//         });
-//         if(error) throw error;;
-//       if (data) {
-//         setImage(data.path);
-//         console.log("upload", data);
-//       }
-//     }
-//   };
-
-//   console.log("image", image)
-//   console.log("storage", storage[0]);
-//   return (
-//     <div className="flex w-full flex-col items-center justify-center">
-//       <div className="flex w-full">
-        
-//       {/* <input type="file" onChange={handleUpload} /> */}
-//         </div>
-//       {storage && (
-//         <div className="flex w-full">
-//         <Image src={`${storage}`} width={200} height={200} alt={"storage"} />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ImageUpload;
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import ImageUploading from 'react-images-uploading';
 import supabase from '@/utils/supabaseClient';
 import { useGlobalContext } from "../(dashboard)/(context)/store";
 import Image from 'next/image';
 
 function ImageUpload() {
+  const [isHovering, setIsHovered] = useState(false);
   const [images, setImages] = useState<any>([]);
   const [uploaded,setUploaded] = useState<Boolean>(false);
-  const {userId, setUserProfile, userProfile } = useGlobalContext();
-
+  const {userId, setUserProfile } = useGlobalContext();
+  const [imageUploaded,setImageUploaded] = useState<Boolean>(false);
 
   const onChange = (imageList: any) => {
     setImages(imageList);
   }
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const el = document.getElementById('my-element');
+    if (el) {
+      el.addEventListener('mouseenter', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
+
+      return () => {
+        el.removeEventListener('mouseenter', handleMouseEnter);  
+        el.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const getUploadedImage =  () => {
         if (images.length > 0) {
             const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
             setUploaded(false);
             setUserProfile(publicUrl);
+            const url = localStorage.setItem('publicUrl',publicUrl);
         }
     };
+    const onUpload = async() => {
+      if (images.length > 0) {
+        const { data, error } = await supabase.storage
+          .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
+                      upsert: true,
+                    })
+                    setUploaded(true);
+                    setImageUploaded(false);
+        if (error) throw error;
+      }
+      console.log("uploaded")
+    }
     if(uploaded){
       getUploadedImage();
     }
-  },[images, setUserProfile, uploaded, userId])
-  const onUpload = async() => {
-    if (images.length > 0) {
-      const { data, error } = await supabase.storage
-        .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
-                    upsert: true,
-                  })
-                  setUploaded(true);
-      if (error) throw error;
+    if(images.length>0 && imageUploaded){
+      onUpload();
     }
-  }
-
+  },[imageUploaded, images, setUserProfile, uploaded, userId])
+  const getPublicUrl = localStorage.getItem('publicUrl');
+  console.log(isHovering,'isHovering')
   return (
     <ImageUploading
       value={images}
@@ -101,9 +67,12 @@ function ImageUpload() {
       dataURLKey="data_url" 
     >
       {({ imageList, onImageUpload }) => (
-        <div className='flex items-center justify-center bg-lightPurple'>
-          {imageList[0]?.data_url?<Image src={imageList[0]?.data_url} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
-            <button onClick={onImageUpload} className='flex justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]'>
+        <div id='my-element' className='flex items-center justify-center bg-lightPurple'>
+          {getPublicUrl?<Image src={getPublicUrl || ''} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
+            <button onClick={()=>{
+              onImageUpload();
+              setImageUploaded(true);
+            }} className='flex w-full justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]'>
             <Image
               src={'/images/icon-upload-image.svg'}
               width={50}
