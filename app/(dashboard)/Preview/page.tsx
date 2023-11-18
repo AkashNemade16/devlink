@@ -2,14 +2,53 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import PreviewButton from '@/app/components/PreviewButton'
 import { useGlobalContext } from '../(context)/store'
+import { selectImages } from '@/common/getImages'
 
 const Preview = () => {
-  const { firstName, lastName ,email } = useGlobalContext();
+  const { firstName, lastName ,email, links } = useGlobalContext();
   const url = localStorage.getItem('publicUrl');
-  
+  const getType = selectImages(links);
+  const getColor = () => {  
+    const color = links?.map((item) => {
+      switch (item.type) {
+        case "Github":
+          return "githubColor";
+        case "Codewars":
+          return "codeWarsColor";
+        case "Stackoverflow":
+          return "stackOverflowColor";
+        case "FrontendMentor":
+          return "frontEndMentorColor";
+        case "LinkedIn":
+          return "linkedinColor";
+        case "Twitter":
+          return "twitterColor";
+        case "Hashnode":
+          return "hashNodeColor";
+        case "Youtube":
+          return "youtubeColor";
+        case "Facebook":
+          return "facebookColor";
+        case "Gitlab":
+          return "gitLabColor";
+        case "Codepen":
+          return "codePenColor";
+        case "Twitch":
+          return "twitchColor";
+        case "Freecodecamp":
+          return "freeCodeCampColor";
+        default:
+          return "githubColor";
+      }
+    });
+    return color;
+  }
+  const getColorType = getColor();
   return (
-    <div className='relative sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>
+    <div className='flex w-full max-h-screen'>
+      <div className='sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>
       <div className='hidden md:flex md:h-[30px] md:bg-purple'>
       </div>
       <div className='flex w-full bg-white h-[70px]'>
@@ -26,11 +65,11 @@ const Preview = () => {
             </div>
         </div>
       </div>
-      <div className='flex w-full justify-center md:h-full'>
+      <div className='flex w-full justify-center'>
       <div className='flex mt-[100px] justify-center rounded-2xl bg-white w-[349px]'>
-          <div className='flex flex-col items-center justify-center p-3'>
+          <div className='flex flex-col items-center justify-center h-full p-3'>
             <div className='flex items-center rounded-full overflow-hidden w-[96px] h-[96px] justify-center'>
-             <Image className='rounded-full' src={url||''} width={'100'} height={'100'} alt="" />
+             <Image className='rounded-full h-full' src={url||''} width={'100'} height={'100'} alt=""/>
             </div>
             <div className='flex'>
                 <p className='text-xl'>{firstName}</p>
@@ -39,11 +78,30 @@ const Preview = () => {
              <div className='flex'>
                 <p className='text-lg text-grey'>{email}</p>
              </div>
+             <div className='flex flex-col'>
+                {
+                  links?.map((item, index) => {
+                    return (
+                      <div className='flex' key={index}>
+                        <PreviewButton
+                          color={getColorType[index]}
+                          imageUrl={getType ? getType[index] : ''}
+                          type={item.type}
+                          input={item.url}
+                        />
+                      </div>
+                    );
+                  })
+            }
+             </div>
+             
           </div>
       </div>
       </div>
       
     </div>
+    </div>
+    
   )
 }
 
