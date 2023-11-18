@@ -28,10 +28,10 @@ const Preview = () => {
         </div>
       </div>
       <div className='flex w-full justify-center'>
-      <div className='absolute flex top-[200px] rounded-2xl bg-white w-[349px]'>
-          <div className='flex rounded-full items-center justify-center'>
-            <div className='flex items-center justify-center p-3 w-full h-full'>
-             <Image src={url||''} width={'100'} height={'100'} alt="" />
+      <div className='absolute flex top-[200px] justify-center rounded-2xl bg-white w-[349px]'>
+          <div className='flex items-center justify-center p-3'>
+            <div className='flex items-center rounded-full overflow-hidden w-[96px] h-[96px] justify-center'>
+             <Image className='rounded-full' src={url||''} width={'100'} height={'100'} alt="" />
              <div className='flex'>
                 <p>{firstName}</p>
                 <p>{lastName}</p>

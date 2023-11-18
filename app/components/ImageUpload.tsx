@@ -36,7 +36,7 @@ function ImageUpload() {
             const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
             setUploaded(false);
             setUserProfile(publicUrl);
-            const url = localStorage.setItem('publicUrl',publicUrl);
+            localStorage.setItem('publicUrl',publicUrl);
         }
     };
     const onUpload = async() => {
@@ -58,8 +58,7 @@ function ImageUpload() {
       onUpload();
     }
   },[imageUploaded, images, setUserProfile, uploaded, userId])
-  const getPublicUrl = localStorage.getItem('publicUrl');
-  console.log(isHovering,'isHovering')
+ 
   return (
     <ImageUploading
       value={images}
@@ -67,13 +66,14 @@ function ImageUpload() {
       dataURLKey="data_url" 
     >
       {({ imageList, onImageUpload }) => (
-        <div id='my-element' className='flex items-center justify-center bg-lightPurple'>
-          {getPublicUrl?<Image src={getPublicUrl || ''} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
+        <div id='my-element' className={`flex items-center justify-center bg-lightPurple ${isHovering?'bg-tranparent':''}`}>
+          {imageList && !isHovering ?<Image className={`${isHovering?'opacity':''}`} src={imageList[0]?.data_url} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
             <button onClick={()=>{
               onImageUpload();
               setImageUploaded(true);
-            }} className='flex w-full justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]'>
+            }} className={`flex w-full justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]`}>
             <Image
+            className={`${isHovering ? 'animate-bounce opacity-20' : ''}`}
               src={'/images/icon-upload-image.svg'}
               width={50}
               height={50}

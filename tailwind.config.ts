@@ -33,6 +33,7 @@ const config: Config = {
       greyShade:"	#dadada",
       red: "#FF3939",
       white:"#FFFFFF",
+      tranparent: "transparent",
     },
     extend: {
       backgroundImage: {
