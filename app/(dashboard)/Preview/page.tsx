@@ -2,12 +2,11 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useGlobalContext } from '../(dashboard)/(context)/store'
+import { useGlobalContext } from '../(context)/store'
 
 const Preview = () => {
-  const {userProfile, firstName, lastName} = useGlobalContext();
+  const { firstName, lastName ,email } = useGlobalContext();
   const url = localStorage.getItem('publicUrl');
-  console.log(url)
   
   return (
     <div className='relative sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>
@@ -27,16 +26,19 @@ const Preview = () => {
             </div>
         </div>
       </div>
-      <div className='flex w-full justify-center'>
-      <div className='absolute flex top-[200px] justify-center rounded-2xl bg-white w-[349px]'>
-          <div className='flex items-center justify-center p-3'>
+      <div className='flex w-full justify-center md:h-full'>
+      <div className='flex mt-[100px] justify-center rounded-2xl bg-white w-[349px]'>
+          <div className='flex flex-col items-center justify-center p-3'>
             <div className='flex items-center rounded-full overflow-hidden w-[96px] h-[96px] justify-center'>
              <Image className='rounded-full' src={url||''} width={'100'} height={'100'} alt="" />
-             <div className='flex'>
-                <p>{firstName}</p>
-                <p>{lastName}</p>
-             </div>
             </div>
+            <div className='flex'>
+                <p className='text-xl'>{firstName}</p>
+                <p className='text-xl'>{lastName}</p>
+             </div>
+             <div className='flex'>
+                <p className='text-lg text-grey'>{email}</p>
+             </div>
           </div>
       </div>
       </div>

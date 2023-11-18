@@ -4,10 +4,10 @@ import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
 import Image from "next/image";
 const Illustrationphone = () => {
-  const { email, links ,userProfile, firstName, lastName} = useGlobalContext();
+  const { email, links , firstName, lastName} = useGlobalContext();
   const getType = selectImages(links);
   const imageUrl = localStorage.getItem('publicUrl');
-  console.log(imageUrl,'imageUrl')
+  console.log(firstName, lastName,'name')
   const getColor = () => {  
     const color = links?.map((item) => {
       switch (item.type) {
