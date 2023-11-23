@@ -66,22 +66,30 @@ function ImageUpload() {
       dataURLKey="data_url" 
     >
       {({ imageList, onImageUpload }) => (
-        <div id='my-element' className={`flex items-center justify-center bg-lightPurple ${isHovering?'bg-tranparent':''}`}>
-          {imageList && !isHovering ?<Image className={`${isHovering?'opacity':''}`} src={imageList[0]?.data_url} width={150} height={150} alt={"storage"} />:<div className='flex justify-center items-center'>
+        <div id='my-element' className={`flex relative items-center justify-center bg-lightPurple`}>
+          {imageList[0]?.data_url?<div className={`flex ${isHovering?'hover:opacity-30':''} justify-center items-center`}>
+          <Image  
+            className={`${isHovering?'opacity:30':''}`}
+            layout="fill"
+              objectFit="cover"
+              src={imageList[0]?.data_url} alt={"storage"} 
+              />
+          </div>:null}
+              <div className='flex justify-center items-center'>
             <button onClick={()=>{
               onImageUpload();
               setImageUploaded(true);
             }} className={`flex w-full justify-center flex-col items-center pt-[60px] pb-[60px] pr-[38px] pl-[38px]`}>
             <Image
-            className={`${isHovering ? 'animate-bounce opacity-20' : ''}`}
+            className={`${imageList[0] && isHovering?'filter invert':''}`}
+            width={50}
+            height={50}
               src={'/images/icon-upload-image.svg'}
-              width={50}
-              height={50}
               alt={"upload"}
             />
-            <p className='text-purple'>+ Upload Image</p>
+            <p className={`${imageList[0] && isHovering?'invert':'text-purple'}`}>{imageList[0]?'+ Change Image':'Upload Image'}</p>
             </button>
-            </div>}
+            </div>
         </div>
       )}
     </ImageUploading>
