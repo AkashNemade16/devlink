@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalContext } from "../(context)/store";
+import { useGlobalContext } from "../../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
 import Image from "next/image";

@@ -4,7 +4,7 @@ import React from "react";
 import NewLink from "../NewLink";
 import Illustrationphone from "../svg/Illustrationphone";
 import IllustrationEmpty from "../IllustrationEmpty";
-import { useGlobalContext } from "../(context)/store";
+import { useGlobalContext } from "../../(context)/store";
 const Homepage = () => {
   const { links, setLinks } = useGlobalContext();
 

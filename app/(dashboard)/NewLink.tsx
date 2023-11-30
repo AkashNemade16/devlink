@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useGlobalContext } from "./(context)/store";
+import { useGlobalContext } from "../(context)/store";
 import Dropdown from "../components/Dropdown";
 import { selectImages } from "@/common/getImages";
 interface NewLinkProps {

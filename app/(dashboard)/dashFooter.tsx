@@ -2,7 +2,7 @@
 import React,{useState,useEffect} from "react";
 import Button from "../components/Button";
 import supabase from "@/utils/supabaseClient";
-import { useGlobalContext } from "./(context)/store";
+import { useGlobalContext } from "../(context)/store";
 
 const DashFooter = () => {
   const {links,id, Error, firstName, lastName} = useGlobalContext();

@@ -46,6 +46,7 @@ const Preview = () => {
     return color;
   }
   const getColorType = getColor();
+  console.log(email)
   return (
     <div className='flex w-full max-h-screen'>
       <div className='sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>

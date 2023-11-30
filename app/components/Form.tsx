@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { useGlobalContext } from '../(dashboard)/(context)/store'
+import { useGlobalContext } from '../(context)/store'
 
 const Form = () => {
     const { firstName, lastName, setFirstName,setLastName, email } = useGlobalContext();
