@@ -5,6 +5,7 @@ import Image from 'next/image'
 import PreviewButton from '@/app/components/PreviewButton'
 import { useGlobalContext } from '../(context)/store'
 import { selectImages } from '@/common/getImages'
+import ShareLink from '../components/ShareLink'
 
 const Preview = () => {
   const { firstName, lastName ,email, links } = useGlobalContext();
@@ -46,7 +47,6 @@ const Preview = () => {
     return color;
   }
   const getColorType = getColor();
-  console.log(email)
   return (
     <div className='flex w-full max-h-screen'>
       <div className='sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>
@@ -59,10 +59,8 @@ const Preview = () => {
                     <div className="flex text-purple">Back to Editor</div>
                 </Link>
             </div>
-            <div className="flex items-center justify-center border-2 border-purple bg-purple rounded-md p-3 mr-2">
-                <Link href={'/'}>
-                    <div className="text-white">Share Link</div>
-                </Link>
+            <div className='flex'>
+            <ShareLink/>
             </div>
         </div>
       </div>
