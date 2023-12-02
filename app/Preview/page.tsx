@@ -8,7 +8,7 @@ import { selectImages } from '@/common/getImages'
 import ShareLink from '../components/ShareLink'
 
 const Preview = () => {
-  const { firstName, lastName ,email, links } = useGlobalContext();
+  const { firstName, lastName ,email, links, copied } = useGlobalContext();
   const url = localStorage.getItem('publicUrl');
   const getType = selectImages(links);
   const getColor = () => {  
@@ -48,7 +48,7 @@ const Preview = () => {
   }
   const getColorType = getColor();
   return (
-    <div className='flex w-full max-h-screen'>
+    <div className='flex w-full max-h-screen flex-col items-center mt-4'>
       <div className='sm:hidden md:flex flex-col w-full md:h-[357px] md:bg-purple md:rounded-l-2xl md:rounded-r-2xl'>
       
       <div className='flex w-full flex-col items-center justify-center'>
@@ -97,6 +97,12 @@ const Preview = () => {
       </div>
       </div>
       
+    </div>
+    <div className='flex bg-darkgrey rounded-xl mt-4'>
+       {copied?<div className='flex'>
+        <Image src='/images/icon-link.svg' width={'20'} height={'20'} alt=""/>
+        <p className='text-white p-1'>The link has been copied to your clipboard!</p>
+        </div>:null}
     </div>
     </div>
     

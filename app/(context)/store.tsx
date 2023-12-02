@@ -24,6 +24,7 @@ export const GlobalContextProvider = ({
   const [lastName,setLastName] = useState<string>("")
   const [firstName,setFirstName] = useState<string>("")
   const [userProfile,setUserProfile] = useState<string>("")
+  const [copied, setCopied] = useState<Boolean>(false);
   
   useEffect(() => {
     const getSession = async () => {
@@ -82,7 +83,9 @@ export const GlobalContextProvider = ({
         firstName,
         setFirstName,
         userProfile,
-        setUserProfile
+        setUserProfile,
+        copied,
+        setCopied
       }}
     >
       {children}
@@ -113,6 +116,8 @@ interface ContextProps {
   setFirstName:Dispatch<SetStateAction<string>>;
   userProfile:string;
   setUserProfile:Dispatch<SetStateAction<string>>;
+  copied:Boolean;
+  setCopied:Dispatch<SetStateAction<Boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -138,6 +143,8 @@ const GlobalContext = createContext<ContextProps>({
   setFirstName:():string=>"",
   userProfile:"",
   setUserProfile:():string=>"",
+  copied:false,
+  setCopied:():Boolean=>false
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
