@@ -3,6 +3,7 @@ import ImageUploading from 'react-images-uploading';
 import supabase from '@/utils/supabaseClient';
 import { useGlobalContext } from "../(context)/store";
 import Image from 'next/image';
+import local from 'next/font/local';
 
 function ImageUpload() {
   const [isHovering, setIsHovered] = useState(false);
@@ -34,8 +35,9 @@ function ImageUpload() {
     const getUploadedImage =  () => {
         if (images.length > 0) {
             const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
+            const url = localStorage.setItem('userProfile', publicUrl);
             setUploaded(false);
-            setUserProfile(publicUrl);
+            // setUserProfile(url);
         }
     };
     const onUpload = async() => {

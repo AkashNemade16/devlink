@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import PreviewButton from '@/app/components/PreviewButton'
@@ -9,7 +9,10 @@ import ShareLink from '../components/ShareLink'
 
 const Preview = () => {
   const { firstName, lastName ,email, links, copied } = useGlobalContext();
-  const url = localStorage.getItem('publicUrl');
+  const [url,setUrl] = useState<any>('')
+  useEffect(() => {
+    setUrl(localStorage.getItem('userProfile'));
+  },[])
   const getType = selectImages(links);
   const getColor = () => {  
     const color = links?.map((item) => {
@@ -67,7 +70,7 @@ const Preview = () => {
       <div className='flex mt-[100px] justify-center rounded-2xl bg-white w-[349px]'>
           <div className='flex flex-col items-center justify-center h-full p-3'>
             <div className='flex items-center rounded-full overflow-hidden w-[96px] h-[96px] justify-center'>
-             <Image className='rounded-full h-full' src={url||''} width={'100'} height={'100'} alt=""/>
+             {url&&<Image className='rounded-full h-full' src={url} width={'100'} height={'100'} alt=""/>}
             </div>
             <div className='flex'>
                 <p className='text-xl'>{firstName}</p>

@@ -115,7 +115,7 @@ interface ContextProps {
   firstName:string;
   setFirstName:Dispatch<SetStateAction<string>>;
   userProfile:string;
-  setUserProfile:Dispatch<SetStateAction<string>>;
+  setUserProfile:Dispatch<SetStateAction<any>>;
   copied:Boolean;
   setCopied:Dispatch<SetStateAction<Boolean>>;
 }

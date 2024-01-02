@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { useGlobalContext } from "../../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
 import Image from "next/image";
 const Illustrationphone = () => {
-  const { email, links , firstName, lastName} = useGlobalContext();
+  const { email, links , firstName, lastName ,userProfile} = useGlobalContext();
+  const [imageUrl,setImageUrl] = useState<any>('')
+  useEffect(() => {
+   setImageUrl(localStorage.getItem('userProfile'));
+  },[userProfile])
   const getType = selectImages(links);
-  const imageUrl = localStorage.getItem('publicUrl');
-  console.log(firstName, lastName,'name')
   const getColor = () => {  
     const color = links?.map((item) => {
       switch (item.type) {
