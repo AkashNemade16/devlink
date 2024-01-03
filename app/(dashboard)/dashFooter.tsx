@@ -1,11 +1,11 @@
 "use client";
-import React,{useState,useEffect, use} from "react";
+import React,{useState,useEffect} from "react";
 import Button from "../components/Button";
 import supabase from "@/utils/supabaseClient";
-import { useGlobalContext } from "./(context)/store";
+import { useGlobalContext } from "../(context)/store";
 
 const DashFooter = () => {
-  const {links,id, Error} = useGlobalContext();
+  const {links,id, Error, firstName, lastName, images, userId, uploaded} = useGlobalContext();
   const [modal,setModal] = useState<Boolean>(false)
   useEffect(() => {
     if(modal){
@@ -18,7 +18,11 @@ const DashFooter = () => {
     try {
         if(links.length>0 && id!==undefined){
           const {data} = await supabase.from("links").update({
-            devlinkdata:links
+            devlinkdata:{
+              firstName:firstName,
+              lastName:lastName,
+              link:links
+            }
           }).eq('id',id)
           setModal(true)
           console.log(data, "handleSubmit");
@@ -34,6 +38,18 @@ const DashFooter = () => {
       console.log(error);
     }
   };
+  const imageUpload = async () => {
+    try{
+        const { data, error } = await supabase.storage
+          .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
+                      upsert: true,
+                    })
+        if (error) throw error;
+      }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2 md:items-end">
@@ -45,6 +61,7 @@ const DashFooter = () => {
           text="Save"
           onClick={() => {
             handleSubmit()
+            if(uploaded)imageUpload()
           }}
           color={`${links?.length===0 || (links.length>0 && Error)?"bg-purple opacity-50":"bg-purple"}`}
           textColor="text-white"

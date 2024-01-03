@@ -1,37 +1,12 @@
 "use client";
 import Button from "@/app/components/Button";
-import React, { useEffect } from "react";
+import React from "react";
 import NewLink from "../NewLink";
 import Illustrationphone from "../svg/Illustrationphone";
 import IllustrationEmpty from "../IllustrationEmpty";
-import { useGlobalContext } from "../(context)/store";
-import supabase from "@/utils/supabaseClient";
+import { useGlobalContext } from "../../(context)/store";
 const Homepage = () => {
-  const { links, setLinks, setId, setUserId, setEmail } =
-    useGlobalContext();
-
-
-  //   const getUser = async () => {
-  //     const user = await supabase.auth.getUser();
-  //     setUserId(user?.data?.user?.id ?? "");
-  //     setEmail(user?.data?.user?.email ?? "");
-  //   };
-  //   const getData = async () => {
-  //     const { data, error } = await supabase.from("links").select();
-  //     if (error) throw error;
-  //     const destructuredData = data.map((item) => {
-  //       setId(item.id);
-  //       return item.devlinkdata;
-  //     });
-  //     if(destructuredData.length>0){
-  //       setLinks(destructuredData[0]);
-  //     }else{
-  //       setLinks([]);
-  //     }
-  //   };
-  //   getUser();
-  //   getData();
-  // }, [setId, setLinks, setUserId, setEmail]);
+  const { links, setLinks } = useGlobalContext();
 
   const addNewLink = () => {
     setLinks((prevLinks) => [

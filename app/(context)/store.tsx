@@ -20,8 +20,21 @@ export const GlobalContextProvider = ({
   const [input,setInput] = useState<string>("")
   const [type,setType] = useState<string>("")
   const [Error,setError] = useState<Boolean>(false)
+  const [usersession,setUserSession] = useState<any>([])
+  const [lastName,setLastName] = useState<string>("")
+  const [firstName,setFirstName] = useState<string>("")
+  const [userProfile,setUserProfile] = useState<string>("")
+  const [copied, setCopied] = useState<Boolean>(false);
+  const [uploaded,setUploaded] = useState<Boolean>(false);
+  const [images, setImages] = useState<any>([]);
+  const [imageUploaded,setImageUploaded] = useState<Boolean>(false);
+
   
   useEffect(() => {
+    const getSession = async () => {
+      const {data,error } = await supabase.auth.getSession();
+      setUserSession(data)
+    }
     const getUser = async () => {
           const user = await supabase.auth.getUser();
           setUserId(user?.data?.user?.id ?? "");
@@ -29,10 +42,15 @@ export const GlobalContextProvider = ({
         };
     const getData = async () => {
       const { data, error } = await supabase.from("links").select();
+      console.log(data, "getData");
       if (error) throw error;
+      data.map((item) => {
+        setLastName(item.devlinkdata?.lastName);
+        setFirstName(item.devlinkdata?.firstName);
+      });
       const destructuredData = data.map((item) => {
         setId(item.id);
-        return item.devlinkdata;
+        return item.devlinkdata?.link;
       });
       if(destructuredData.length>0){
         setLinks(destructuredData[0]);
@@ -42,6 +60,7 @@ export const GlobalContextProvider = ({
     };
     getUser();
     getData();
+    getSession();
   },[])
 
   return (
@@ -60,7 +79,23 @@ export const GlobalContextProvider = ({
         type,
         setType,
         Error,
-        setError
+        setError,
+        usersession,
+        setUserSession,
+        lastName,
+        setLastName,
+        firstName,
+        setFirstName,
+        userProfile,
+        setUserProfile,
+        copied,
+        setCopied,
+        uploaded,
+        setUploaded,
+        images,
+        setImages,
+        imageUploaded,
+        setImageUploaded
       }}
     >
       {children}
@@ -83,6 +118,22 @@ interface ContextProps {
   setType:Dispatch<SetStateAction<string>>
   Error:Boolean;
   setError:Dispatch<SetStateAction<Boolean>>
+  usersession:any;
+  setUserSession:Dispatch<SetStateAction<any>>;
+  lastName:string;
+  setLastName:Dispatch<SetStateAction<string>>;
+  firstName:string;
+  setFirstName:Dispatch<SetStateAction<string>>;
+  userProfile:string;
+  setUserProfile:Dispatch<SetStateAction<any>>;
+  copied:Boolean;
+  setCopied:Dispatch<SetStateAction<Boolean>>;
+  uploaded:Boolean;
+  setUploaded:Dispatch<SetStateAction<Boolean>>;
+  images:any;
+  setImages:Dispatch<SetStateAction<any>>;
+  imageUploaded:Boolean;
+  setImageUploaded:Dispatch<SetStateAction<Boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -99,7 +150,25 @@ const GlobalContext = createContext<ContextProps>({
   type:"",
   setType:():string=>"",
   Error:false,
-  setError:():Boolean=>false
+  setError:():Boolean=>false,
+  usersession:[],
+  setUserSession:():any=>{},
+  lastName:"",
+  setLastName:():string=>"",
+  firstName:"",
+  setFirstName:():string=>"",
+  userProfile:"",
+  setUserProfile:():string=>"",
+  copied:false,
+  setCopied:():Boolean=>false,
+  uploaded:false,
+  setUploaded:():Boolean=>false,
+  images:[],
+  setImages:():any=>{},
+  imageUploaded:false,
+  setImageUploaded:():Boolean=>false,
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);
+
+

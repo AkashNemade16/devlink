@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { GlobalContextProvider } from "./(context)/store";
 
 const myFont = localFont({
   src: "../fonts/InstrumentSans-Variable.ttf",
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={myFont.className}>
         <div className="flex flex-col justify-center items-center m-4">
-        {children}
+          <GlobalContextProvider>
+          {children}
+        </GlobalContextProvider>
         </div>
       </body>
     </html>
