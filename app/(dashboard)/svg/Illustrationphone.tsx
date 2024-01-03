@@ -1,4 +1,4 @@
-import React, { use, useEffect,useState } from "react";
+import React, { useEffect,useState } from "react";
 import { useGlobalContext } from "../../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
@@ -11,7 +11,6 @@ const Illustrationphone = () => {
     const getUploadedImage =  () => {
       if (images.length > 0) {
           const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
-          // setUserProfile(publicUrl);
           localStorage.setItem('userProfile', publicUrl);
       }
       setImageUrl(localStorage.getItem('userProfile'));
@@ -56,8 +55,6 @@ const Illustrationphone = () => {
     return color;
   }
   const getColorType = getColor();
-  // const url = localStorage.getItem('userProfile');
-  console.log(imageUrl, "url");
   return (
     <div>
       <svg
