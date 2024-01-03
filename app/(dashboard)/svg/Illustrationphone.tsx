@@ -1,14 +1,24 @@
-import React, { useEffect,useState } from "react";
+import React, { use, useEffect,useState } from "react";
 import { useGlobalContext } from "../../(context)/store";
 import PreviewButton from "@/app/components/PreviewButton";
 import { selectImages } from "@/common/getImages";
+import supabase from "@/utils/supabaseClient";
 import Image from "next/image";
 const Illustrationphone = () => {
-  const { email, links , firstName, lastName ,userProfile} = useGlobalContext();
+  const { email, links , firstName, lastName ,userProfile, uploaded, images,userId ,setUserProfile} = useGlobalContext();
   const [imageUrl,setImageUrl] = useState<any>('')
   useEffect(() => {
-   setImageUrl(localStorage.getItem('userProfile'));
-  },[userProfile])
+    const getUploadedImage =  () => {
+      if (images.length > 0) {
+          const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
+          // setUserProfile(publicUrl);
+          localStorage.setItem('userProfile', publicUrl);
+      }
+      setImageUrl(localStorage.getItem('userProfile'));
+  }; 
+  getUploadedImage();
+  },[userProfile, imageUrl, uploaded, images, userId, setUserProfile,setImageUrl])
+
   const getType = selectImages(links);
   const getColor = () => {  
     const color = links?.map((item) => {
@@ -46,6 +56,8 @@ const Illustrationphone = () => {
     return color;
   }
   const getColorType = getColor();
+  // const url = localStorage.getItem('userProfile');
+  console.log(imageUrl, "url");
   return (
     <div>
       <svg
@@ -69,7 +81,7 @@ const Illustrationphone = () => {
             <foreignObject x='110' y='70' width="50%" height="25%">
              {imageUrl?
               <div className="rounded-full overflow-hidden w-[96px] h-[96px]">
-              <Image className="rounded-full" src={imageUrl||''} alt="" width={'100'} height={'100'}/>
+              <Image className="rounded-full" src={imageUrl} alt="" width={'100'} height={'100'}/>
               </div>
              :
             <div className="rounded-full w-[96px] h-[96px] bg-svgLightGrey">

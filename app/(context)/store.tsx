@@ -25,6 +25,10 @@ export const GlobalContextProvider = ({
   const [firstName,setFirstName] = useState<string>("")
   const [userProfile,setUserProfile] = useState<string>("")
   const [copied, setCopied] = useState<Boolean>(false);
+  const [uploaded,setUploaded] = useState<Boolean>(false);
+  const [images, setImages] = useState<any>([]);
+  const [imageUploaded,setImageUploaded] = useState<Boolean>(false);
+
   
   useEffect(() => {
     const getSession = async () => {
@@ -85,7 +89,13 @@ export const GlobalContextProvider = ({
         userProfile,
         setUserProfile,
         copied,
-        setCopied
+        setCopied,
+        uploaded,
+        setUploaded,
+        images,
+        setImages,
+        imageUploaded,
+        setImageUploaded
       }}
     >
       {children}
@@ -118,6 +128,12 @@ interface ContextProps {
   setUserProfile:Dispatch<SetStateAction<any>>;
   copied:Boolean;
   setCopied:Dispatch<SetStateAction<Boolean>>;
+  uploaded:Boolean;
+  setUploaded:Dispatch<SetStateAction<Boolean>>;
+  images:any;
+  setImages:Dispatch<SetStateAction<any>>;
+  imageUploaded:Boolean;
+  setImageUploaded:Dispatch<SetStateAction<Boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -144,7 +160,13 @@ const GlobalContext = createContext<ContextProps>({
   userProfile:"",
   setUserProfile:():string=>"",
   copied:false,
-  setCopied:():Boolean=>false
+  setCopied:():Boolean=>false,
+  uploaded:false,
+  setUploaded:():Boolean=>false,
+  images:[],
+  setImages:():any=>{},
+  imageUploaded:false,
+  setImageUploaded:():Boolean=>false,
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

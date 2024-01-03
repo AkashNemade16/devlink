@@ -5,7 +5,7 @@ import supabase from "@/utils/supabaseClient";
 import { useGlobalContext } from "../(context)/store";
 
 const DashFooter = () => {
-  const {links,id, Error, firstName, lastName} = useGlobalContext();
+  const {links,id, Error, firstName, lastName, images, userId, uploaded} = useGlobalContext();
   const [modal,setModal] = useState<Boolean>(false)
   useEffect(() => {
     if(modal){
@@ -38,6 +38,18 @@ const DashFooter = () => {
       console.log(error);
     }
   };
+  const imageUpload = async () => {
+    try{
+        const { data, error } = await supabase.storage
+          .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
+                      upsert: true,
+                    })
+        if (error) throw error;
+      }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <div className="w-full flex flex-col border-t-2 border-greyShade mt-2 mb-2 md:items-end">
@@ -49,6 +61,7 @@ const DashFooter = () => {
           text="Save"
           onClick={() => {
             handleSubmit()
+            if(uploaded)imageUpload()
           }}
           color={`${links?.length===0 || (links.length>0 && Error)?"bg-purple opacity-50":"bg-purple"}`}
           textColor="text-white"

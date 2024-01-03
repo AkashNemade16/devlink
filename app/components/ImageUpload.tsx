@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ImageUploading from 'react-images-uploading';
-import supabase from '@/utils/supabaseClient';
 import { useGlobalContext } from "../(context)/store";
 import Image from 'next/image';
-import local from 'next/font/local';
 
 function ImageUpload() {
   const [isHovering, setIsHovered] = useState(false);
-  const [images, setImages] = useState<any>([]);
-  const [uploaded,setUploaded] = useState<Boolean>(false);
-  const {userId, setUserProfile } = useGlobalContext();
-  const [imageUploaded,setImageUploaded] = useState<Boolean>(false);
+  const {userId, setUserProfile, uploaded,setUploaded,images,setImages, imageUploaded, setImageUploaded } = useGlobalContext();
 
   const onChange = (imageList: any) => {
     setImages(imageList);
@@ -32,33 +27,13 @@ function ImageUpload() {
   }, []);
 
   useEffect(() => {
-    const getUploadedImage =  () => {
-        if (images.length > 0) {
-            const { data: { publicUrl } } = supabase.storage.from("UserProfiles").getPublicUrl(`${userId}/${images[0].file.name}`);
-            const url = localStorage.setItem('userProfile', publicUrl);
-            setUploaded(false);
-            // setUserProfile(url);
-        }
-    };
-    const onUpload = async() => {
-      if (images.length > 0) {
-        const { data, error } = await supabase.storage
-          .from('UserProfiles').upload(`${userId}/${images[0].file.name}`, images[0].file, {
-                      upsert: true,
-                    })
-                    setUploaded(true);
-                    setImageUploaded(false);
-        if (error) throw error;
-      }
-      console.log("uploaded")
-    }
-    if(uploaded){
-      getUploadedImage();
+    const onUpload = () => {
+      setUploaded(true);
     }
     if(images.length>0 && imageUploaded){
       onUpload();
     }
-  },[imageUploaded, images, setUserProfile, uploaded, userId])
+  },[imageUploaded, images, setImageUploaded, setUploaded, setUserProfile, uploaded, userId])
  
   return (
     <ImageUploading
