@@ -1,12 +1,27 @@
 "use client";
 import Button from "@/app/components/Button";
-import React from "react";
+import React,{useEffect, useState} from "react";
 import NewLink from "../NewLink";
 import Illustrationphone from "../svg/Illustrationphone";
 import IllustrationEmpty from "../IllustrationEmpty";
 import { useGlobalContext } from "../../(context)/store";
+import { DragDropContext,Droppable,Draggable } from "react-beautiful-dnd";
 const Homepage = () => {
   const { links, setLinks } = useGlobalContext();
+  const [linkposition, setLinkposition] = useState(links)
+  console.log(linkposition)
+  useEffect(() => {
+    setLinkposition(links);
+    console.log('triggered')
+  }, [links]);
+  const handleOnDragEnd = (result:any) => {
+    if(!result.destination) return;
+    const items = Array.from(linkposition);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setLinkposition(items);
+    console.log(result)
+  }
 
   const addNewLink = () => {
     setLinks((prevLinks) => [
@@ -56,10 +71,15 @@ const Homepage = () => {
           </div>
         )}
         <div>
-            <div>
-              {links?.map((item, index: number) => {
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="dragLinks">
+              {(provided)=>(
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {linkposition?.map((item, index: number) => {
                 return (
-                  <div key={index}>
+                  <Draggable key={index} draggableId={index.toString()} index={index}>
+                    {(provided)=>(
+                  <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} key={index}>
                     {item && (
                       <NewLink
                         linkError={item.err} 
@@ -70,10 +90,15 @@ const Homepage = () => {
                       />
                     )}
                   </div>
+                    )}
+                  </Draggable>
                 );
               })}
+              {provided.placeholder}
             </div>
-
+              )}
+            </Droppable>
+            </DragDropContext>
         </div>
       </div>
     </div>
