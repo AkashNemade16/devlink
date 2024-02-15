@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/components/Button";
-import React,{useEffect, useState} from "react";
+import React,{use, useEffect, useState} from "react";
 import NewLink from "../NewLink";
 import Illustrationphone from "../svg/Illustrationphone";
 import IllustrationEmpty from "../IllustrationEmpty";
@@ -9,11 +9,12 @@ import { DragDropContext,Droppable,Draggable } from "react-beautiful-dnd";
 const Homepage = () => {
   const { links, setLinks } = useGlobalContext();
   const [linkposition, setLinkposition] = useState(links)
-  console.log(linkposition)
+  
   useEffect(() => {
-    setLinkposition(links);
     console.log('triggered')
+    setLinkposition(links)
   }, [links]);
+
   const handleOnDragEnd = (result:any) => {
     if(!result.destination) return;
     const items = Array.from(linkposition);
@@ -22,7 +23,7 @@ const Homepage = () => {
     setLinkposition(items);
     console.log(result)
   }
-
+  console.log(linkposition,'linkposition')
   const addNewLink = () => {
     setLinks((prevLinks) => [
       ...prevLinks,
@@ -76,11 +77,12 @@ const Homepage = () => {
               {(provided)=>(
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {linkposition?.map((item, index: number) => {
-                return (
-                  <Draggable key={index} draggableId={index.toString()} index={index}>
+
+                return  (
+                  <Draggable key={index} draggableId={item.type} index={index}>
                     {(provided)=>(
-                  <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} key={index}>
-                    {item && (
+                  <div className="link" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} key={index}>
+                      <div>
                       <NewLink
                         linkError={item.err} 
                         linkTitle={item.type}
@@ -88,7 +90,7 @@ const Homepage = () => {
                         index={index}
                         deleteLink={() => deleteLink(index)}
                       />
-                    )}
+                      </div>
                   </div>
                     )}
                   </Draggable>
